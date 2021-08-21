@@ -132,6 +132,8 @@
         .videos-container iframe{
             width: 100%;
             margin-bottom: 25px;
+            border: 3px solid #000;
+            border-radius: 4px;
             max-height: 500px;
         }
 
@@ -216,6 +218,10 @@
             margin-left: auto;
         }
 
+        .video-max-height {
+            max-height: 500px;
+        }
+
         @media only screen and (min-width: 769px) {
             body > main {
                 display: flex;
@@ -243,6 +249,7 @@
 
             .tabs-container {
                 flex-direction: column;
+                z-index: 100;
             }
 
             .product .image-container {
@@ -345,8 +352,10 @@
         <h2 th:text="${product.videoSectionHeadline !=null ? product.videoSectionHeadline: 'Persönliche Nachricht'}"></h2>
         <div th:each="video : ${videos}">
             <h3 th:text="${video.title !=null ? video.title: ''}"/></h3>
-            <div style="padding:56.25% 0 0 0;position:relative;">
-                <iframe th:src="${video.url}+'?title=0&byline=0&portrait=0'" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow=" fullscreen; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-max-height">
+                <div style="padding:56.25% 0 0 0;position:relative;">
+                    <iframe th:src="${video.url}+'?title=0&byline=0&portrait=0'" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow=" fullscreen; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
