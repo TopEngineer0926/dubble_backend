@@ -1,0 +1,41 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Vadym Doroshevych" id="20210302-1 drop column `button_link`">
+
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="product" columnName="button_link"/>
+        </preConditions>
+
+        <dropColumn tableName="product" columnName="button_link"/>
+
+    </changeSet>
+
+    <changeSet author="Vadym Doroshevych" id="20210302-2 insert first value into table `hibernate_sequence`">
+
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(1) FROM hibernate_sequence hs WHERE hs.next_val IS NOT NULL;
+            </sqlCheck>
+        </preConditions>
+
+        <insert tableName="hibernate_sequence">
+            <column name="next_val" value="1"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet author="Vadym Doroshevych" id="20210302-3 extend text type of column `custom_text` in table `product`">
+
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="product" columnName="custom_text"/>
+        </preConditions>
+
+        <modifyDataType tableName="product" columnName="custom_text" newDataType="LONGTEXT"/>
+
+    </changeSet>
+
+</databaseChangeLog>

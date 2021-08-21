@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Tobias Wecht"
+               id="20210326-1 update column `contact_button_color`">
+        <update catalogName="dubble"
+                schemaName="public"
+                tableName="product">
+            <column name="contact_button_color"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </update>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+                id="20210326-2 drop column `video_section_headline`">
+    <dropColumn catalogName="dubble"
+                schemaName="public"
+                tableName="product">
+        <column name="video_section_headline"/>
+    </dropColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210326-3 add column `video_section_headline`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product">
+            <column name="video_section_headline"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

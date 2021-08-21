@@ -1,0 +1,268 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-1">
+        <createTable tableName="contact">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-2">
+        <createTable tableName="customer">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-3">
+        <createTable tableName="hibernate_sequence">
+            <column name="next_val" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-4">
+        <createTable tableName="jwt_token">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="token_string" type="TEXT"/>
+            <column name="unique_id" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-5">
+        <createTable tableName="media">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="file_name" type="VARCHAR(255)"/>
+            <column name="foreign_id" type="INT"/>
+            <column name="foreign_table" type="VARCHAR(255)"/>
+            <column name="media_type" type="INT"/>
+            <column name="path" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-6">
+        <createTable tableName="product">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="button_label" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="button_link" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="custom_text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="greeting" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="headline" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="press_info_section_name" type="VARCHAR(255)"/>
+            <column name="publication_status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review_section_name" type="VARCHAR(255)"/>
+            <column name="share_code" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="contact_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-7">
+        <createTable tableName="product_press_info">
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="button_text" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="headline" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="link" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-8">
+        <createTable tableName="product_review">
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="button_text" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="headline" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="link" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-9">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="modified_by" type="VARCHAR(255)"/>
+            <column name="is_activated" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_code" type="VARCHAR(255)"/>
+            <column name="company_name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="main_color" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_reset_code" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="secondary_color" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-10">
+        <createIndex indexName="fk_contact__user" tableName="contact">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-11">
+        <createIndex indexName="fk_customer__user" tableName="customer">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-12">
+        <createIndex indexName="fk_product__contact" tableName="product">
+            <column name="contact_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-13">
+        <createIndex indexName="fk_product__customer" tableName="product">
+            <column name="customer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-14">
+        <createIndex indexName="fk_product__user" tableName="product">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-15">
+        <createIndex indexName="fk_product_press_info__product" tableName="product_press_info">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-16">
+        <createIndex indexName="fk_product_review__product" tableName="product_review">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-17">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="contact" constraintName="fk_contact__user" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-18">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="customer" constraintName="fk_customer__user" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-19">
+        <addForeignKeyConstraint baseColumnNames="contact_id" baseTableName="product" constraintName="fk_product__contact" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="contact" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-20">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="product" constraintName="fk_product__customer" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-21">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="product" constraintName="fk_product__user" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-22">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_press_info" constraintName="fk_product_press_info__product" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="Andreas Drexler (generated)" id="1614171132599-23">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_review" constraintName="fk_product_review__product" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

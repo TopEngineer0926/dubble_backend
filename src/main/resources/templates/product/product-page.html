@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ihre Präsentationsmappe</title>
+    <link rel="icon" th:href="${webDomain}+ '/img/icon.ico'" type="image/x-icon">
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #2b2c31;
+            background-color: rgba(43, 44, 49, 0.03);
+            display: flex;
+            flex-direction: column;
+        }
+
+        body > header {
+            background-color: #ffffff;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            padding: 10px 18px;
+            box-shadow: 0 0 5px 0 rgba(43, 44, 49, 0.5);
+        }
+
+        body > header img {
+            height: 100%;
+        }
+
+        body > main {
+            padding: 30px 18px 6px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.25;
+            letter-spacing: normal;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+        }
+
+        main img {
+            width: 100%;
+        }
+
+        .aspect-ratio-box {
+            height: 0;
+            width: 100%;
+            overflow: hidden;
+            padding-top: calc(591.44 / 1127.34 * 100%);
+            background: white;
+            position: relative;
+        }
+
+        .aspect-ratio-box-inside {
+            object-fit: cover;
+            object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        main a.button,
+        .buttons-wrapper a.button {
+            display: block;
+            width: max-content;
+            padding: 10px;
+            margin: 30px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.14;
+            letter-spacing: 1.25px;
+            text-align: center;
+            color: #ffffff;
+            /*default color*/
+            background: #62b725;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .contact-info-container--mobile .buttons-wrapper a.button {
+            display: inline-block;
+        }
+
+        main a.button {
+            margin-bottom: 0;
+        }
+
+        .videos-container {
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 100px;
+        }
+
+        .videos-container iframe{
+            width: 100%;
+            margin-bottom: 25px;
+            max-height: 500px;
+        }
+
+        .tab-content p.headline {
+            font-size: 18px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+        }
+
+        .tab-content a {
+            /*default color*/
+            color: #62b725;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.14;
+            letter-spacing: 1.25px;
+            text-transform: uppercase;
+        }
+
+        .tab-content .press-info,
+        .tab-content .review {
+            margin-bottom: 50px;
+        }
+
+
+        .contact-info-wrapper {
+            margin-top: 90px;
+            padding: 50px 18px 90px;
+            background-color: #2b2c31;
+            color: #ffffff;
+        }
+
+        .contact-info-wrapper img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .contact-info-wrapper h3 {
+            opacity: 0.9;
+            font-size: 20px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+        }
+
+        .contact-info-wrapper p {
+            opacity: 0.8;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            margin: 0;
+        }
+
+        .contact-info-container--desktop {
+            display: none;
+        }
+
+        .logo-position-center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .logo-position-left {
+            margin-right: auto;
+        }
+
+        .logo-position-right {
+            margin-left: auto;
+        }
+
+        @media only screen and (min-width: 769px) {
+            body > main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            h1 {
+                width: 70%;
+                font-size: 48px;
+                margin-bottom: 48px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .product, .tabs-container {
+                width: 70%;
+                display: flex;
+                margin: 0 -18px;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+            }
+
+            .product .image-container {
+                width: 50%;
+                flex-shrink: 0;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                margin-top: 100px;
+            }
+
+            .product-description {
+                padding: 46px;
+            }
+
+            main a.button {
+                margin-bottom: 0;
+            }
+
+            .videos-container {
+                width: 70%;
+            }
+
+            .contact-info-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .contact-info-wrapper img {
+                flex-shrink: 0;
+            }
+
+            .contact-info-container {
+                width: 70%;
+                display: flex;
+            }
+
+            .contact-info-container--mobile {
+                display: none;
+            }
+
+            .contact-info-container--desktop {
+                display: flex;
+            }
+
+            .contact-info {
+                flex-grow: 1;
+                padding: 0 0 0 5rem;
+            }
+
+            .buttons-wrapper {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .buttons-wrapper > a.button {
+                width: 48%;
+            }
+        }
+
+        @media only screen and (min-width: 1025px) {
+            body > header {
+                height: 116px;
+                padding: 10px 250px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <img th:class="'logo-position-'+ ${user.logoPosition != null ? user.logoPosition : 'left'}"
+         th:if="${companyImage != null && companyImage.url != null}" th:src="${companyImage.url}"
+         alt="Company logo">
+</header>
+
+<main>
+    <h1 th:text="${product.headline}"></h1>
+
+    <div class="product">
+        <div class="image-container" th:if="${teaserImage != null && teaserImage.url != null}">
+            <div class="aspect-ratio-box">
+                <img class="aspect-ratio-box-inside"
+                     th:src="${teaserImage.url}"
+                     alt="teaser image">
+            </div>
+        </div>
+
+        <div class="product-description">
+            <h2 th:text="${product.greeting}"></h2>
+
+            <p th:utext="${product.customText}"></p>
+
+        </div>
+    </div>
+
+    <div class="videos-container" th:if="${videos != null && !videos.isEmpty()}">
+        <h2 th:text="${product.videoSectionHeadline !=null ? product.videoSectionHeadline: 'Persönliche Nachricht'}"></h2>
+        <div th:each="video : ${videos}">
+            <h3 th:text="${video.title !=null ? video.title: ''}"/></h3>
+            <div style="padding:56.25% 0 0 0;position:relative;">
+                <iframe th:src="${video.url}+'?title=0&byline=0&portrait=0'" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow=" fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs-container" th:if="${tabCount != 0}">
+        <div th:if="${!product.reviews.isEmpty()}">
+            <h2 th:text="${product.reviewSectionName}"></h2>
+            <div class="tab-content">
+                <div class="review" th:each="review : ${product.reviews}">
+                    <p class="headline"
+                       th:text="${review.headline}"></p>
+                    <p th:utext="${review.customText}"></p>
+
+                    <a class="button"
+                       th:href="${review.link}"
+                       th:text="${review.buttonText != null ? review.buttonText : ''}"
+                       th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';' + ${review.buttonText != null && (!review.buttonText.isEmpty()) ? ''  : 'display: none;'} + ${review.link !=null && (!review.link.isEmpty()) ? ''  : 'display: none;'}"
+                       target="_blank"></a>
+                </div>
+            </div>
+        </div>
+        <div th:if="${!product.pressInfos.isEmpty()}">
+            <h2 th:text="${product.pressInfoSectionName}"></h2>
+            <div class="tab-content">
+                <div class="press-info" th:each="pressInfo : ${product.pressInfos}">
+                    <p class="headline"
+                       th:text="${pressInfo.headline}"></p>
+                    <p th:utext="${pressInfo.customText}"></p>
+                    <a class="button"
+                       th:href="${pressInfo.link}"
+                       th:text="${pressInfo.buttonText != null ? pressInfo.buttonText : ''}"
+                       th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';' + ${pressInfo.buttonText != null && (!pressInfo.buttonText.isEmpty()) ? ''  : 'display: none;'} + ${pressInfo.link != null && (!pressInfo.link.isEmpty()) ? ''  : 'display: none;'}"
+                       target="_blank"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tabs-container">
+        <div th:each="pdfFile : ${pdfFiles}">
+            <a class="button"
+               th:text="${pdfFile.title}"
+               th:href="${pdfFile != null && pdfFile.url != null ? pdfFile.url : ''}"
+               th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';' + ${(!pdfFile.title.isEmpty()) ? ''  : 'display: none;'}"
+               target="_blank"></a>
+        </div>
+    </div>
+</main>
+
+<div class="contact-info-wrapper"
+     th:style="'background:' + ${user.secondaryColor != null ? user.secondaryColor : ''} + ';'">
+    <div class="contact-info-container contact-info-container--desktop">
+        <img th:src="${contactImage != null && contactImage.url != null ? contactImage.url : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}"
+             alt="Contact photo">
+        <div class="contact-info">
+            <h3 th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'">
+                Ich freue mich über Ihre Rückmeldung per Telefon oder E-Mail</h3>
+
+            <div class="buttons-wrapper">
+
+                <a th:href="${'tel:' + product.contact.phoneNumber}"
+                   th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"
+                   class="button"
+                   target="_self">Anrufen</a>
+
+                <a th:href="${'mailto:' + product.contact.email}"
+                   th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"
+                   class="button"
+                   target="_blank">E-Mail senden</a>
+            </div>
+
+            <p th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'">
+                Schöne Grüße
+            </p>
+
+            <p th:text="${product.contact.firstName} + ' ' + ${product.contact.lastName}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <p th:text="${product.user.companyName}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <p th:text="${product.contact.phoneNumber}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <p th:text="${product.contact.email}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+        </div>
+    </div>
+    <div class="contact-info-container contact-info-container--mobile">
+        <div class="contact-info">
+            <h3 th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'">
+                Ich freue mich über Ihre Rückmeldung per Telefon oder E-Mail</h3>
+
+            <div class="buttons-wrapper">
+
+                <a th:href="${'tel:' + product.contact.phoneNumber}"
+                   th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"
+                   class="button"
+                   target="_self">Anrufen</a>
+
+                <a th:href="${'mailto:' + product.contact.email}"
+                   th:style="'background:' + ${user.mainColor != null ? user.mainColor : ''} + '; color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"
+                   class="button"
+                   target="_blank">E-Mail senden</a>
+            </div>
+
+            <p th:text="${product.contact.firstName} + ' ' + ${product.contact.lastName}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <img th:src="${contactImage != null && contactImage.url != null ? contactImage.url : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}"
+                 alt="Contact photo">
+
+            <p th:text="${product.user.companyName}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <p th:text="${product.contact.email}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+
+            <p th:text="${product.contact.phoneNumber}"
+               th:style="'color:' + ${user.contactButtonColor != null ? user.contactButtonColor : ''} + ';'"></p>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

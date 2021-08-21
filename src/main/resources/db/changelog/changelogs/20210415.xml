@@ -1,0 +1,55 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+    <changeSet author="Tobias Wecht"
+               id="20210415-1 update column `status`">
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="media">
+            <column name="status"
+                    type="varchar(255)">
+            </column>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210415-2 update column `link`">
+
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="product_review">
+            <column name="link"/>
+        </dropColumn>
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product_review">
+            <column name="link"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="product_press_info">
+            <column name="link"/>
+        </dropColumn>
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product_press_info">
+            <column name="link"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

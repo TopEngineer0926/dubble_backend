@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    jdbc-url: jdbc:mysql://xxx/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: dubble
+    password: xxx
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+
+media-upload:
+  image-path: ""
+  video-path: ""
+  pdf-path: ""
+
+web-domain: ""
+cms-domain: ""
+api-domain: ""
+

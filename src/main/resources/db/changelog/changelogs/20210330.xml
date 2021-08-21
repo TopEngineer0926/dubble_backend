@@ -1,0 +1,52 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Tobias Wecht"
+               id="20210330-1 update column `logo_position`,`contact_button_color`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="user">
+            <column name="logo_position"
+                    type="ENUM('left','center','right')"
+                    defaultValue="left">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="user">
+            <column name="contact_button_color"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210330-2 drop column `logo_position`,`contact_button_color`">
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="product">
+            <column name="logo_position"/>
+        </dropColumn>
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="product">
+            <column name="contact_button_color"/>
+        </dropColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210330-3 drop column `button_label`">
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="product">
+            <column name="button_label"/>
+        </dropColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

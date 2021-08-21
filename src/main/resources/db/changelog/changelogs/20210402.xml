@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+    <changeSet author="Tobias Wecht"
+               id="20210402-1 update column `custom_text`">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="product_press_info" columnName="custom_text"/>
+        </preConditions>
+
+        <modifyDataType tableName="product_press_info" columnName="custom_text" newDataType="LONGTEXT"/>
+
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210402-2 update column `custom_text`">
+
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="product_review" columnName="custom_text"/>
+        </preConditions>
+
+        <modifyDataType tableName="product_review" columnName="custom_text" newDataType="LONGTEXT"/>
+
+    </changeSet>
+
+</databaseChangeLog>

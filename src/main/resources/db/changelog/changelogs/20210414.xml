@@ -1,0 +1,46 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+    <changeSet author="Tobias Wecht"
+               id="20210414-1 update column `order`">
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="media">
+            <column name="order"
+                    type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210414-2 drop column `order`">
+
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="media">
+            <column name="order"/>
+        </dropColumn>
+
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210414-3 update column `display_order`">
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="media">
+            <column name="display_order"
+                    type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

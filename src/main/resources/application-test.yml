@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:h2:mem:dubble;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  liquibase:
+    enabled: false #liquibase is not needed for tests, since dbs are created in memory on test startup
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+hibernate:
+  hbm2ddl:
+    auto: create-drop

@@ -1,0 +1,72 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Tobias Wecht"
+               id="20210323-1 add column `customer_number`,`academic_degree_preceding`,`academic_degree_subsequent`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="customer">
+            <column name="customer_number"
+                    position="2"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="customer_number"
+                    name="academic_degree_preceding"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="last_name"
+                    name="academic_degree_subsequent"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210323-2 add column `abbreviation`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="contact">
+            <column name="abbreviation"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210323-3 drop column `gender`">
+        <dropColumn catalogName="dubble"
+                    schemaName="public"
+                    tableName="user">
+            <column name="gender"/>
+        </dropColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210323-4 add column `custom_text`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product_press_info">
+            <column name="custom_text"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product_review">
+            <column name="custom_text"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,54 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Tobias Wecht"
+               id="20210325-1 add column `contact_button_color`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product">
+            <column name="contact_button_color"
+                    type="varchar(255)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210325-2 add column `internal_page_title`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product">
+            <column name="internal_page_title"
+                    type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210325-3 add column `title`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="media">
+            <column name="title"
+                    type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Tobias Wecht"
+               id="20210325-4 add column `video_section_headline`">
+        <addColumn catalogName="dubble"
+                   schemaName="public"
+                   tableName="product">
+            <column name="video_section_headline"
+                    type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

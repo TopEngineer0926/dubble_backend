@@ -1,0 +1,96 @@
+spring:
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: none
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+    hikari:
+      idle-timeout: 10000
+      maximumPoolSize: 30
+      minimum-idle: 10
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    allow-bean-definition-overriding: true
+  mail:
+    host: mail.dubble.at
+    username: service@dubble.at
+    password: xxx
+    sender: office@dubble.at
+    sender-name: "Dubble"
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ssZ
+    time-zone: Europe/Vienna
+  servlet:
+    multipart:
+      max-file-size: 150MB
+      max-request-size: 150MB
+
+hibernate:
+  hbm2ddl:
+    auto: none
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  tomcat:
+    connection-timeout: 120000
+
+mail:
+  host:
+  protocol: smtp
+  port:
+  debug: false
+  username:
+  password:
+  smtp:
+    auth: true
+    ssl:
+      trust: "*"
+    starttls:
+      enable: true
+
+# If needed to change access-token - change code after `?access_token=`
+sms:
+  api-url: "https://api.websms.com/rest/smsmessaging/text?access_token=837f4c86-df5a-4eb9-9308-924324767693"
+
+logging:
+  level:
+    root: INFO
+    web: INFO
+
+media-upload:
+  image-path:
+  video-path:
+  pdf-path:
+
+web-domain:
+cms-domain:
+api-domain:
+
+# yaml file structure
+buildNr: ${buildNr}
+gitBranchName: ${gitBranchName}
+gitCommitID: ${gitCommitID}
+
+api:
+  security:
+    token:
+      secret: "Njyx6fcjBgGn6spLwWNgW7nisqarLUHP19wFbEcPEfQbGi9qtSLOOW3jj0kEANDG"
+      issuer: "com.mogree.dubble"
+  vimeo:
+    app: "dubble.at"
+    clientID: "828edc0075da6dadc623a87197e39efc73724cd8"
+    secret: "xGBhjq05re6X9yvOHxGL+1db/I9maUhYJe/TVEznwlO0gcMpvTMWjiHVRFejkgOUcpbWXACVL3woQ6OeBrMTxDAFet7HnzUEko0HaFD1LgT73ju2NekIR0vdjlai12Fj"
+    account: "office@dubble.at"
+    password: "fhMAGpcoSVq-gFzc2L"
+    accessToken: "d0c2f09f2aa33d4bccf9d131e309d7c3" # get from ui https://developer.vimeo.com/apps/212333
+    path: "https://vimeo.com"
+    player: "https://player.vimeo.com/video/"
