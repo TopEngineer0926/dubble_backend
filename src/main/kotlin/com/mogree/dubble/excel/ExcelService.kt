@@ -7,6 +7,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell
 import org.apache.poi.xssf.usermodel.XSSFRow
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.json.JSONObject
+import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -16,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileInputStream
-import java.nio.file.Paths
 import java.util.*
 
 
@@ -30,7 +29,8 @@ class ReportController(
 
     @PostMapping("/download_example")
     fun downloadExample(): ResponseEntity<ByteArray> {
-        val tempData = readExcelFile(this::class.java.getResource("/templates/excel/Beispiel.xlsx").path)
+        val input: Resource = ClassPathResource("templates/excel/Beispiel.xlsx")
+        val tempData = readExcelFile(input)
         return createResponseEntity(tempData, "Beispiel.xlsx")
     }
 
@@ -97,8 +97,8 @@ class ReportController(
     }
 
     // Read the excel data from resource file.
-    fun readExcelFile(path: String): ByteArray {
-        val excelFile = FileInputStream(File(path))
+    fun readExcelFile(input: Resource): ByteArray {
+        val excelFile = input.inputStream
         val workbook = XSSFWorkbook(excelFile)
 
         excelFile.close()
