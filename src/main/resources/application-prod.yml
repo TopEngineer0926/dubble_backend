@@ -2,14 +2,14 @@ spring:
   datasource:
     jdbc-url: jdbc:mysql://api.dubble.at/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dubble
-    password: xxx
+    password: Tuk3Resto6_markuTeldo
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL55Dialect
   mail:
     host: mail.dubble.at
     username: service@dubble.at
-    password: xxx
+    password: IYmw79eXQ6Y27S3B
     sender: office@dubble.at
 
 media-upload:
