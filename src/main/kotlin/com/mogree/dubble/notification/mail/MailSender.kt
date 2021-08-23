@@ -33,4 +33,18 @@ class MailSender @Autowired(required = false) constructor(
         }
     }
 
+    @Throws(MailException::class)
+    fun sendEmailWithHtmlContentInProduct(subject: String, content: String, receivers: List<String>, replyTo: String) {
+        receivers.forEach { to ->
+            val mimeMessage = sender!!.createMimeMessage()
+            val messageHelper = MimeMessageHelper(mimeMessage, MULTIPART_MODE_NO, StandardCharsets.UTF_8.name())
+            messageHelper.setTo(to)
+            messageHelper.setReplyTo(replyTo)
+            messageHelper.setSubject(subject)
+            messageHelper.setText(content, true)
+            messageHelper.setFrom(senderEmail, senderName)
+            sender!!.send(mimeMessage)
+        }
+    }
+
 }

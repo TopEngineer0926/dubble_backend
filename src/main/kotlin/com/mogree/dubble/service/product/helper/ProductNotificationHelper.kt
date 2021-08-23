@@ -53,8 +53,8 @@ class ProductNotificationHelper @Autowired constructor(
 
         val subject = Config.Mail.Subject.PRODUCT_PUBLISHED + " " + user?.companyName
 
-        mailSender.sendEmailWithHtmlContent(
-                subject, content, listOf(product.customer!!.email!!)
+        mailSender.sendEmailWithHtmlContentInProduct(
+                subject, content, listOf(product.customer!!.email!!), user!!.email
         ) // send email
         Config.LOGGER.info { "Sent email about published product to `${product.customer!!.email}`" } // log into info level
     }
