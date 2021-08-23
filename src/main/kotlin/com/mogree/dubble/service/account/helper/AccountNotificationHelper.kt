@@ -38,6 +38,8 @@ class AccountNotificationHelper @Autowired constructor(
         ) // set variable `activationLink`
         context.setVariable("user", user)
         context.setVariable(Config.Template.WEB_DOMAIN, webDomain)
+        context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
+
         val content: String = templateEngine.process(Config.Mail.Template.ACTIVATION, context) // create email content
 
         mailSender.sendEmailWithHtmlContent(Config.Mail.Subject.ACTIVATION, content, listOf(user.email)) // send email
@@ -56,6 +58,7 @@ class AccountNotificationHelper @Autowired constructor(
         ) // set variable `resetPasswordLink`
         context.setVariable("user", user) //set user to use firstname and lastname
         context.setVariable(Config.Template.WEB_DOMAIN, webDomain)
+        context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
 
         val content: String = templateEngine.process(Config.Mail.Template.RESET_PASSWORD, context) // create email content
 

@@ -42,6 +42,7 @@ class ProductNotificationHelper @Autowired constructor(
         ) // set variable `productLink`
         context.setVariable("contact", product.contact)
         context.setVariable("customer", product.customer)
+        context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
 
         if (media.isNotEmpty()) {
             context.setVariable("media", media.first())

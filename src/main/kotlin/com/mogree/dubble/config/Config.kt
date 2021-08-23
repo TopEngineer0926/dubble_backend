@@ -87,6 +87,7 @@ class Config {
             const val COMPANY_IMAGE = "companyImage"
             const val TAB_COUNT = "tabCount"
             const val PDF_FILES = "pdfFiles"
+            const val COMPANY_NAME = "companyName"
         }
 
         object Subject {
