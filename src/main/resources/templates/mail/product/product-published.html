@@ -149,7 +149,7 @@
                     <td align="left" bgcolor="#ffffff"
                         style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
                         <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
-                            Ihre persönliche Präsentationsmappe</h1>
+                            Ihre persönliche Informationsseite</h1>
                     </td>
                 </tr>
             </table>
@@ -181,7 +181,7 @@
                                 th:text="${customer.firstName}"></span> <span th:text="${customer.lastName}"></span>
                             <span th:text="${customer.academicDegreeSubsequent}"></span><br>
 
-                        <p>Ich habe für Sie ein paar aktuelle Informationen und Neuigkeiten zusammengestellt. <br><br>
+                        <p>Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt. <br><br>
 
                         </p>
                         </p>
@@ -200,7 +200,7 @@
                                             <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
                                                 <a th:href='${productLink}' target="_blank"
                                                    style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">
-                                                    Präsentationsmappe</a>
+                                                    Persönliche Informationsseite</a>
                                             </td>
                                         </tr>
                                     </table>
@@ -215,8 +215,7 @@
                 <tr>
                     <td align="left" bgcolor="#ffffff"
                         style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                        <p style="margin: 0;">Klicken Sie einfach auf den Button oder den Link und lassen Sie sich
-                            überraschen.</p>
+                        <p style="margin: 0;">Bitte klicken Sie auf den Button oder Link - ich freue mich auf Ihre Rückmeldung.</p>
                         <p style="margin: 0;"><a th:href="${productLink}" th:text="${productLink}" target="_blank"></a>
                         </p>
                     </td>
@@ -227,7 +226,7 @@
                 <tr>
                     <td align="left" bgcolor="#ffffff"
                         style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-                        <p style="margin: 0;">Viel Freude und Spaß beim Durchschauen. <br><br>
+                        <p style="margin: 0;">Schöne Grüße <br><br>
                             <span th:text="${contact.firstName}"></span> <span th:text="${contact.lastName}"></span><br>
                             <img th:if="${(media != null && !media.url.isEmpty())}" th:src="${media.url}"  alt="" />
                         </p>

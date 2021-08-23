@@ -349,7 +349,7 @@
     </div>
 
     <div class="videos-container" th:if="${videos != null && !videos.isEmpty()}">
-        <h2 th:text="${product.videoSectionHeadline !=null ? product.videoSectionHeadline: 'Persönliche Nachricht'}"></h2>
+        <h2 th:text="${product.videoSectionHeadline !=null ? product.videoSectionHeadline: 'Neuigkeiten'}"></h2>
         <div th:each="video : ${videos}">
             <h3 th:text="${video.title !=null ? video.title: ''}"/></h3>
             <div class="video-max-height">

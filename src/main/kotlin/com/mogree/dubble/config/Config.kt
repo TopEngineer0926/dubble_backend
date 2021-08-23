@@ -92,7 +92,7 @@ class Config {
         object Subject {
             const val ACTIVATION = "Aktivierung des Accounts"
             const val RESET_PASSWORD = "Passwort vergessen"
-            const val PRODUCT_PUBLISHED = "Persönliche Nachricht von"
+            const val PRODUCT_PUBLISHED = "Neuigkeiten von"
         }
 
     }
