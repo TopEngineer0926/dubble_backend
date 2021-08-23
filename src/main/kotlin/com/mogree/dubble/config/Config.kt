@@ -100,9 +100,10 @@ class Config {
     object Sms {
         const val FROM_PUBLISHED_TEXT = "von "
         const val HEADER_PUBLISHED_TEXT = "Hallo und schönen guten Tag "
-        const val PRODUCT_PUBLISHED_TEXT = ",\n\n" +
-                "Ich habe für Sie ein paar aktuelle Informationen und Neuigkeiten zusammengestellt. Klicken Sie einfach auf den Link und lassen Sie sich überraschen. \n" +
-                "Viel Freude und Spaß beim Durchschauen. \n"
+        const val PRODUCT_PUBLISHED_TEXT = ",\n\n\n" +
+                "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt. \n" +
+                "Bitte klicken Sie auf den Link - ich freue mich auf Ihre Rückmeldung. \n" +
+                "Schöne Grüße \n"
     }
 
     object RegexPattern {
