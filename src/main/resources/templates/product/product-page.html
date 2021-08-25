@@ -111,7 +111,6 @@
         .videos-container {
             width: 100%;
             margin-bottom: 20px;
-            margin-top: 100px;
         }
 
         .videos-container iframe{
@@ -226,7 +225,16 @@
                 font-size: 24px;
             }
 
-            .product, .tabs-container {
+            .product {
+                max-width: 1128px;
+                margin: 0 -18px;
+                padding-top: 46px;
+                padding-left: 46px;
+                padding-right: 46px;
+                padding-bottom: unset;
+            }
+
+            .tabs-container {
                 max-width: 1128px;
                 margin: 0 -18px;
             }
@@ -241,7 +249,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                padding: 46px
             }
 
             main a.button {
@@ -308,7 +315,7 @@
 </header>
 
 <main>
-    <h1 th:text="${product.headline}"></h1>
+    <h1 th:text="${product.headline}" style="margin: unset;"></h1>
 
     <div class="product">
         <div class="image-container" th:if="${teaserImage != null && teaserImage.url != null}">
@@ -370,8 +377,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="tabs-container">
         <div th:each="pdfFile : ${pdfFiles}">
             <a class="button"
                th:text="${pdfFile.title}"
