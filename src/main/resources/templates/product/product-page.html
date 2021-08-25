@@ -76,22 +76,7 @@
         }
 
         .aspect-ratio-box {
-            height: 0;
             width: 100%;
-            overflow: hidden;
-            padding-top: calc(591.44 / 1127.34 * 100%);
-            background: white;
-            position: relative;
-        }
-
-        .aspect-ratio-box-inside {
-            object-fit: cover;
-            object-position: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
         }
 
         main a.button,
@@ -242,8 +227,7 @@
             }
 
             .product, .tabs-container {
-                width: 70%;
-                display: flex;
+                max-width: 1128px;
                 margin: 0 -18px;
             }
 
@@ -253,16 +237,11 @@
             }
 
             .product .image-container {
-                width: 50%;
                 flex-shrink: 0;
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                margin-top: 100px;
-            }
-
-            .product-description {
-                padding: 46px;
+                padding: 46px
             }
 
             main a.button {
@@ -334,8 +313,7 @@
     <div class="product">
         <div class="image-container" th:if="${teaserImage != null && teaserImage.url != null}">
             <div class="aspect-ratio-box">
-                <img class="aspect-ratio-box-inside"
-                     th:src="${teaserImage.url}"
+                <img th:src="${teaserImage.url}"
                      alt="teaser image">
             </div>
         </div>
