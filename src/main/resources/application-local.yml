@@ -2,9 +2,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    jdbc-url: jdbc:mysql://xxx/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
-    username: dubble
-    password: xxx
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL55Dialect
