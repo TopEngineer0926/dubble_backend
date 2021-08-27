@@ -10,7 +10,7 @@ spring:
     host: mail.dubble.at
     username: service@dubble.at
     password: IYmw79eXQ6Y27S3B
-    sender: office@dubble.at
+    sender: noreply@dubble.at
 
 media-upload:
   image-path: "/mounted/img"
