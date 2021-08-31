@@ -228,7 +228,8 @@
                         style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
                         <p style="margin: 0;">Schöne Grüße <br><br>
                             <span th:text="${contact.firstName}"></span> <span th:text="${contact.lastName}"></span><br>
-                            <img th:if="${(media != null && !media.url.isEmpty())}" th:src="${media.url}"  alt="" />
+                            <img th:if="${(media != null && !media.url.isEmpty())}" th:src="${media.url}"  alt=""
+                                style="max-width: 220px; height: auto;"/>
                         </p>
                     </td>
                 </tr>
