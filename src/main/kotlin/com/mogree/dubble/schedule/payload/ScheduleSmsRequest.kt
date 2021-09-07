@@ -1,0 +1,15 @@
+package com.mogree.dubble.schedule.payload
+
+import java.time.LocalDateTime
+import java.time.ZoneId
+
+
+class ScheduleSmsRequest {
+
+    var productId: Long? = null
+
+    var dateTime: LocalDateTime? = null
+
+    var timeZone: ZoneId? = null
+
+}

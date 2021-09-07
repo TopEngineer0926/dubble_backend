@@ -107,6 +107,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.apache.poi:poi:4.1.2")
     implementation("org.apache.poi:poi-ooxml:4.1.2")
+
+    implementation("org.quartz-scheduler:quartz:2.3.0")
+    implementation("org.quartz-scheduler:quartz-jobs:2.3.0")
+
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
