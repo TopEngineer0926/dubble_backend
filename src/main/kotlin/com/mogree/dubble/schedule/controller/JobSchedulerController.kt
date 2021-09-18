@@ -5,10 +5,7 @@ import com.mogree.dubble.config.security.getCurrentUserId
 import com.mogree.dubble.entity.db.ProductEntity
 import com.mogree.dubble.schedule.job.EmailJob
 import com.mogree.dubble.schedule.job.SmsJob
-import com.mogree.dubble.schedule.payload.ScheduleEmailRequest
-import com.mogree.dubble.schedule.payload.ScheduleEmailResponse
-import com.mogree.dubble.schedule.payload.ScheduleSmsRequest
-import com.mogree.dubble.schedule.payload.ScheduleSmsResponse
+import com.mogree.dubble.schedule.payload.*
 import com.mogree.dubble.service.media.helper.MediaHelper
 import com.mogree.dubble.storage.repository.ProductRepository
 import com.mogree.dubble.storage.repository.UserRepository
@@ -190,5 +187,21 @@ class JobSchedulerController (
 
     companion object {
         private val logger = LoggerFactory.getLogger(JobSchedulerController::class.java)
+    }
+
+    @PostMapping("/deleteJob")
+    fun deleteJob(@RequestBody deleteJobRequest: DeleteJobRequest): ResponseEntity<DeleteJobResponse> {
+        return try {
+
+            val jobKey = JobKey(deleteJobRequest.jobId, deleteJobRequest.jobGroup)
+            scheduler.deleteJob(jobKey)
+            val response = DeleteJobResponse(true, "Deleted Successfully!")
+            ResponseEntity.ok<DeleteJobResponse>(response)
+        } catch (ex: SchedulerException) {
+            logger.error("Error deleting job", ex)
+            val response = DeleteJobResponse(false,
+                    "Error deleting job. Please try later!")
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body<DeleteJobResponse>(response)
+        }
     }
 }
