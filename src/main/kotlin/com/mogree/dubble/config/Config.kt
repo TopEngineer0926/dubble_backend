@@ -61,6 +61,7 @@ class Config {
         const val TABLE_CUSTOMER = "customer"
         const val TABLE_PRODUCT_REVIEW = "product_review"
         const val TABLE_PRODUCT_PRESS_INFO = "product_press_info"
+        const val TABLE_MONITOR = "monitor"
     }
 
     object Mail {
