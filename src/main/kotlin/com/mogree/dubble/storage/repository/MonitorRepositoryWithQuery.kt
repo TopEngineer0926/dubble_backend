@@ -16,8 +16,9 @@ interface MonitorRepositoryWithQuery : CrudRepository<MonitorEntity, Int> {
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
+                    " WHERE userId = :currentUserId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun findAll(offset: Int?, limit: Int?): List<MonitorEntity>
+    fun findAll(offset: Int?, limit: Int?, currentUserId: Long?): List<MonitorEntity>
 
 }

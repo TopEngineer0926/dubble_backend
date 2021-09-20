@@ -1,5 +1,6 @@
 package com.mogree.dubble.service.monitor
 
+import com.mogree.dubble.config.security.getCurrentUserId
 import com.mogree.dubble.entity.db.MonitorEntity
 import com.mogree.dubble.storage.repository.MonitorRepository
 import com.mogree.dubble.storage.repository.MonitorRepositoryWithQuery
@@ -14,7 +15,7 @@ class MonitorService(
 ) {
 
     fun getMonitors(offset: Int, limit: Int): List<MonitorEntity> =
-            monitorRepositoryWithQuery.findAll(offset, limit)
+            monitorRepositoryWithQuery.findAll(offset, limit, getCurrentUserId())
 
     fun addMonitor(monitor: MonitorEntity): ResponseEntity<MonitorEntity> =
             ResponseEntity.ok(monitorRepository.save(monitor))
