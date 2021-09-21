@@ -23,4 +23,10 @@ interface MonitorRepositoryWithQuery : CrudRepository<MonitorEntity, Int> {
     )
     fun findAll(offset: Int?, limit: Int?, currentUserId: Long?): List<MonitorEntity>
 
+    @Query(
+            "SELECT COUNT(*) " +
+                    "FROM " + TABLE +
+                    " WHERE userId = :currentUserId", nativeQuery = true
+    )
+    fun getSize(currentUserId: Long?): Int
 }

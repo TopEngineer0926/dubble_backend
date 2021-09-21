@@ -17,6 +17,9 @@ class MonitorService(
     fun getMonitors(offset: Int, limit: Int): List<MonitorEntity> =
             monitorRepositoryWithQuery.findAll(offset, limit, getCurrentUserId())
 
+    fun getSize(): Int =
+            monitorRepositoryWithQuery.getSize(getCurrentUserId())
+
     fun addMonitor(monitor: MonitorEntity): ResponseEntity<MonitorEntity> =
             ResponseEntity.ok(monitorRepository.save(monitor))
 

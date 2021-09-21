@@ -17,7 +17,7 @@ class MonitorController (
             @RequestParam(value = "limit") limit: Int
     ): ResponseEntity<MonitorListResponse> {
         val list: List<MonitorEntity> = monitorService.getMonitors(offset, limit)
-        val response = MonitorListResponse(offset, list, limit, list.size)
+        val response = MonitorListResponse(offset, list, limit, monitorService.getSize())
         return ResponseEntity.ok<MonitorListResponse>(response)
     }
 
