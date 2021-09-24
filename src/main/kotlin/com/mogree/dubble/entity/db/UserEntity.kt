@@ -66,4 +66,7 @@ class UserEntity : EntityAudition() {
     @Column(name = "contact_button_color", nullable = true)
     var contactButtonColor: String? = null
 
+    @Column(name = "category", nullable = true)
+    var category: String? = null
+
 }
