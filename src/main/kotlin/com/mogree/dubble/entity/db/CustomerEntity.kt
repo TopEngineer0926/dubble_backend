@@ -34,6 +34,9 @@ class CustomerEntity : EntityAudition() {
     @Column(name = "academic_degree_subsequent", nullable = true)
     var academicDegreeSubsequent: String? = null
 
+    @Column(name = "category", nullable = true)
+    var category: String? = null
+
     /* ***** Relations ***** */
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

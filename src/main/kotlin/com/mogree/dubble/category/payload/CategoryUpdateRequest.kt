@@ -4,4 +4,6 @@ class CategoryUpdateRequest {
 
     var category: String = ""
 
+    var id: Long = 0
+
 }
