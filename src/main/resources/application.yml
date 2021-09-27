@@ -26,7 +26,7 @@ spring:
     host: mail.dubble.at
     username: service@dubble.at
     password: xxx
-    sender: noreply@dubble.at
+    sender: noreply@dubble.eu
     sender-name: "Dubble"
     properties:
       mail.smtp.auth: true
