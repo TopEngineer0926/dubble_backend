@@ -1,6 +1,9 @@
 package com.mogree.dubble.excel
 
+import com.mogree.dubble.config.security.getCurrentUserId
 import com.mogree.dubble.service.customer.CustomerService
+import com.mogree.dubble.storage.repository.CustomerCategoryRepository
+import com.mogree.dubble.storage.repository.UserCategoryRepository
 import com.mogree.server.gen.model.CustomerModel
 import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.xssf.usermodel.XSSFCell
@@ -24,7 +27,8 @@ import java.util.*
 @RestController
 @RequestMapping("customer/excel")
 class ReportController(
-    private val customerService: CustomerService
+    private val customerService: CustomerService,
+    private val userCategoryRepository: UserCategoryRepository
 ) {
 
     @PostMapping("/download_example")
@@ -48,8 +52,8 @@ class ReportController(
         val header_row: XSSFRow = sheet.getRow(0)
 
         val headers: MutableList<String> = ArrayList()
-        // Assuming 7 columns
-        for (i in 0..6) {
+        // Assuming 8 columns
+        for (i in 0..7) {
             val header_cell: XSSFCell = header_row.getCell(i)
             val header = header_cell.getStringCellValue()
 
@@ -67,13 +71,15 @@ class ReportController(
                 headers.add("email")
             if (header.toLowerCase().contains("telefonnummer")) // Telefonnummer(+43…)
                 headers.add("phone_number")
+            if (header.toLowerCase().contains("kategorie")) // Kategorie
+                headers.add("category")
         }
 
         val all_datas: MutableList<JSONObject> = ArrayList()
         for (row in 1..sheet.lastRowNum) {
             val data_row: XSSFRow = sheet.getRow(row)
             val data = JSONObject()
-            for (cell in 0..6) {
+            for (cell in 0..7) {
                 val data_cell = data_row.getCell(cell)
                 data.put(headers[cell], dataFormatter.formatCellValue(data_cell))
             }
@@ -125,7 +131,23 @@ class ReportController(
             model.academicDegreeSubsequent(datas.get(i).getString("academic_degree_subsequent"))
             model.email(datas.get(i).getString("email"))
             model.phoneNumber(datas.get(i).getString("phone_number"))
+            model.category(datas.get(i).getString("category"))
             customerService.createCustomer(model)
+
+            insertNewCategory(datas.get(i).getString("category"))
+        }
+    }
+
+    fun insertNewCategory(
+            category: String
+    ) {
+        val userCategoryList = userCategoryRepository.getCategory(getCurrentUserId())
+        val newCategoryList = category.split("|")
+        for (i in 0 until newCategoryList.size) {
+            if (!userCategoryList!!.contains(newCategoryList[i])) {
+                val temp = userCategoryList + "|" + newCategoryList[i]
+                userCategoryRepository.updateCategory(temp, getCurrentUserId())
+            }
         }
     }
 

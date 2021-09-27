@@ -20,6 +20,7 @@ public class CustomerModel   {
   private String phoneNumber = null;
   private String lastname = null;
   private String academicDegreeSubsequent = null;
+  private String category = null;
   private Integer type = 5;
 
   /**
@@ -95,12 +96,29 @@ public class CustomerModel   {
 
   /**
    **/
+  public CustomerModel category(String category) {
+    this.category = category;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "category", value = "")
+  @JsonProperty("category")
+  public String getCategory() {
+    return category;
+  }
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+  /**
+   **/
   public CustomerModel firstname(String firstname) {
     this.firstname = firstname;
     return this;
   }
 
-  
+
   @ApiModelProperty(example = "First", value = "")
   @JsonProperty("firstname")
   public String getFirstname() {
@@ -198,12 +216,13 @@ public class CustomerModel   {
         Objects.equals(phoneNumber, customerModel.phoneNumber) &&
         Objects.equals(lastname, customerModel.lastname) &&
         Objects.equals(academicDegreeSubsequent, customerModel.academicDegreeSubsequent) &&
+        Objects.equals(category, customerModel.category) &&
         Objects.equals(type, customerModel.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(customerNumber, academicDegreePreceding, itemid, email, firstname, phoneNumber, lastname, academicDegreeSubsequent, type);
+    return Objects.hash(customerNumber, academicDegreePreceding, itemid, email, firstname, phoneNumber, lastname, academicDegreeSubsequent, category, type);
   }
 
   @Override
@@ -219,6 +238,7 @@ public class CustomerModel   {
     sb.append("    phoneNumber: ").append(toIndentedString(phoneNumber)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    academicDegreeSubsequent: ").append(toIndentedString(academicDegreeSubsequent)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
