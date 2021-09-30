@@ -34,4 +34,22 @@ class UserCategoryController (
         }
     }
 
+    @GetMapping("/template")
+    fun getTemplateById(): ResponseEntity<CategoryResponse> {
+        val category = userCategoryService.getTemplateById()
+        val response = CategoryResponse(category)
+        return ResponseEntity.ok<CategoryResponse>(response)
+    }
+
+    @PutMapping("/template")
+    fun updateTemplateById(@RequestBody newCategory: CategoryUpdateRequest): ResponseEntity<CategoryResponse> {
+        var result = userCategoryService.updateTemplateById(newCategory.category)
+        if (result > 0) {
+            val response = CategoryResponse("success")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        } else {
+            val response = CategoryResponse("fail")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        }
+    }
 }

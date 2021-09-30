@@ -15,4 +15,10 @@ class UserCategoryService(
 
     fun updateCategoryById(newCategory: String): Int =
             userCategoryRepository.updateCategory(newCategory, getCurrentUserId())
+
+    fun getTemplateById(): String? =
+            userCategoryRepository.getTemplate(getCurrentUserId())
+
+    fun updateTemplateById(newCategory: String): Int =
+            userCategoryRepository.updateTemplate(newCategory, getCurrentUserId())
 }

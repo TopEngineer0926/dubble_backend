@@ -69,4 +69,6 @@ class UserEntity : EntityAudition() {
     @Column(name = "category", nullable = true)
     var category: String? = null
 
+    @Column(name = "template", nullable = true)
+    var template: String? = null
 }
