@@ -24,7 +24,7 @@ public class ProductModel   {
   private String headline = null;
   private String greeting = null;
   private String customText = null;
-
+  private String template = null;
 
   public enum PublicationStatusEnum {
     DRAFT("DRAFT"),
@@ -350,6 +350,22 @@ public class ProductModel   {
     this.videoSectionHeadline = videoSectionHeadline;
   }
 
+  /**
+   * template field
+   **/
+  public ProductModel template(String template) {
+    this.template = template;
+    return this;
+  }
+
+  @ApiModelProperty(example = "template", value = "")
+  @JsonProperty("template")
+  public String getTemplate() {
+    return template;
+  }
+  public void setTemplate(String template) {
+    this.template = template;
+  }
 
   @Override
   public boolean equals(Object o) {

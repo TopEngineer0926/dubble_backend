@@ -51,6 +51,9 @@ class ProductEntity : EntityAudition() {
     @Column(name = "video_section_headline", nullable = true)
     var videoSectionHeadline: String? = null
 
+    @Column(name = "template", nullable = true)
+    var template: String? = null
+
     /* ***** Relations ***** */
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
