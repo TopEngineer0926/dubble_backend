@@ -3,6 +3,7 @@ package com.mogree.dubble.category
 import com.mogree.dubble.mapper.toModels
 import com.mogree.dubble.storage.repository.CustomerCategoryRepository
 import com.mogree.server.gen.model.CustomerModel
+import com.mogree.dubble.config.security.getCurrentUserId
 import org.springframework.stereotype.Service
 
 
@@ -19,12 +20,14 @@ class CustomerCategoryService(
 
     fun getCustomerByFilter(offset: Int, limit: Int, filter: String): List<CustomerModel> {
         if (limit == 0)
-            return customerCategoryRepository.getCustomerByFilter(offset, getSize(filter),filter).toModels()
+            return customerCategoryRepository.getCustomerByFilter(offset, getSize(filter),filter, getCurrentUserId()).toModels()
         else
-            return customerCategoryRepository.getCustomerByFilter(offset, limit, filter).toModels()
+            return customerCategoryRepository.getCustomerByFilter(offset, limit, filter, getCurrentUserId()).toModels()
     }
 
     fun getSize(filter: String): Int =
-            customerCategoryRepository.getSize(filter)
+            customerCategoryRepository.getSize(filter, getCurrentUserId())
 
+    fun deleteCustomerByFilter(filter: String): Int =
+            customerCategoryRepository.deleteCustomerByFilter(filter, getCurrentUserId())
 }

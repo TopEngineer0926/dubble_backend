@@ -14,6 +14,7 @@ interface CustomerCategoryRepository : CrudRepository<CustomerEntity, Int> {
     companion object {
         const val TABLE = Config.Database.TABLE_CUSTOMER
         const val CATEGORY_FIELD = "category"
+        const val USER_ID = "user_id"
     }
 
     @Query(
@@ -36,14 +37,23 @@ interface CustomerCategoryRepository : CrudRepository<CustomerEntity, Int> {
             "SELECT * " +
                     "FROM " + TABLE +
                     " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +
+                    " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun getCustomerByFilter(offset: Int?, limit: Int?, filter: String): List<CustomerEntity>
+    fun getCustomerByFilter(offset: Int?, limit: Int?, filter: String, userId: Long): List<CustomerEntity>
 
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE " + CATEGORY_FIELD + " LIKE %:filter%", nativeQuery = true
+                    " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +
+                    " AND " + USER_ID + " = :userId", nativeQuery = true
     )
-    fun getSize(filter: String): Int
+    fun getSize(filter: String, userId: Long): Int
+
+    @Query(
+            "DELETE FROM " + TABLE +
+                    " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +
+                    " AND " + USER_ID + " = :userId", nativeQuery = true
+    )
+    fun deleteCustomerByFilter(filter: String, userId: Long): Int
 }

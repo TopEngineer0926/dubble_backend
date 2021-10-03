@@ -1,7 +1,6 @@
 package com.mogree.dubble.category.payload
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.mogree.dubble.entity.db.CustomerEntity
 import com.mogree.server.gen.model.CustomerModel
 
 

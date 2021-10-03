@@ -47,4 +47,17 @@ class CustomerCategoryController (
         return ResponseEntity.ok<CustomerListResponse>(response)
     }
 
+    @DeleteMapping("/customer_by_filter")
+    fun deleteCustomerByFilter(
+            @RequestParam(value = "filter") filter: String
+    ): ResponseEntity<CategoryResponse> {
+        val result = customerCategoryService.deleteCustomerByFilter(filter)
+        if (result > 0) {
+            val response = CategoryResponse("success")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        } else {
+            val response = CategoryResponse("fail")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        }
+    }
 }

@@ -131,7 +131,14 @@ class ReportController(
             model.academicDegreeSubsequent(datas.get(i).getString("academic_degree_subsequent"))
             model.email(datas.get(i).getString("email"))
             model.phoneNumber(datas.get(i).getString("phone_number"))
-            model.category(datas.get(i).getString("category"))
+            var category = datas.get(i).getString("category").split("|")
+            var structuredCategory = "|"
+            for (j in 0 until category.size) {
+                if (category[j].isEmpty())
+                    continue
+                structuredCategory += category[j] + "|"
+            }
+            model.category(structuredCategory)
             customerService.createCustomer(model)
 
             insertNewCategory(datas.get(i).getString("category"))
@@ -141,11 +148,13 @@ class ReportController(
     fun insertNewCategory(
             category: String
     ) {
-        val userCategoryList = userCategoryRepository.getCategory(getCurrentUserId())
+        var userCategoryList = userCategoryRepository.getCategory(getCurrentUserId())
         val newCategoryList = category.split("|")
         for (i in 0 until newCategoryList.size) {
-            if (!userCategoryList!!.contains(newCategoryList[i])) {
-                val temp = userCategoryList + "|" + newCategoryList[i]
+            if (newCategoryList.isNotEmpty() && !userCategoryList!!.contains(newCategoryList[i])) {
+                if (!userCategoryList.isNotEmpty())
+                    userCategoryList = "|"
+                val temp = userCategoryList + newCategoryList[i] + "|"
                 userCategoryRepository.updateCategory(temp, getCurrentUserId())
             }
         }
