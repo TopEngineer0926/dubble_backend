@@ -52,8 +52,8 @@ class ReportController(
         val header_row: XSSFRow = sheet.getRow(0)
 
         val headers: MutableList<String> = ArrayList()
-        // Assuming 8 columns
-        for (i in 0..7) {
+        // Assuming 9 columns
+        for (i in 0..8) {
             val header_cell: XSSFCell = header_row.getCell(i)
             val header = header_cell.getStringCellValue()
 
@@ -71,6 +71,8 @@ class ReportController(
                 headers.add("email")
             if (header.toLowerCase().contains("telefonnummer")) // Telefonnummer(+43…)
                 headers.add("phone_number")
+            if (header.toLowerCase().contains("unternehmen")) // Unternehmen
+                headers.add("company")
             if (header.toLowerCase().contains("kategorie")) // Kategorie
                 headers.add("category")
         }
@@ -79,10 +81,13 @@ class ReportController(
         for (row in 1..sheet.lastRowNum) {
             val data_row: XSSFRow = sheet.getRow(row)
             val data = JSONObject()
-            for (cell in 0..7) {
+            for (cell in 0..8) {
                 val data_cell = data_row.getCell(cell)
                 data.put(headers[cell], dataFormatter.formatCellValue(data_cell))
+                print(dataFormatter.formatCellValue(data_cell))
+                print("  ")
             }
+            print("\n")
             all_datas.add(data)
         }
         // Insert datas into Customer table
@@ -123,6 +128,8 @@ class ReportController(
     ) {
 
         for (i in 0 until datas.size) {
+            if (datas.get(i).getString("first_name").isEmpty() || datas.get(i).getString("last_name").isEmpty())
+                continue
             val model = CustomerModel()
             model.customerNumber(datas.get(i).getString("customer_number"))
             model.firstname(datas.get(i).getString("first_name"))
@@ -131,6 +138,7 @@ class ReportController(
             model.academicDegreeSubsequent(datas.get(i).getString("academic_degree_subsequent"))
             model.email(datas.get(i).getString("email"))
             model.phoneNumber(datas.get(i).getString("phone_number"))
+            model.companyName(datas.get(i).getString("company"))
             var category = datas.get(i).getString("category").split("|")
             var structuredCategory = "|"
             for (j in 0 until category.size) {
