@@ -73,7 +73,7 @@ class ReportController(
                 headers.add("phone_number")
             if (header.toLowerCase().contains("unternehmen")) // Unternehmen
                 headers.add("company")
-            if (header.toLowerCase().contains("kategorie")) // Kategorie
+            if (header.toLowerCase().contains("kunden_interessen")) // Kunden Interessen
                 headers.add("category")
         }
 
