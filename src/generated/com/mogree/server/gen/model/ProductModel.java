@@ -392,12 +392,13 @@ public class ProductModel   {
         Objects.equals(customer, productModel.customer) &&
         Objects.equals(createdAt, productModel.createdAt) &&
         Objects.equals(internalPageTitle, productModel.internalPageTitle) &&
+        Objects.equals(template, productModel.template) &&
         Objects.equals(videoSectionHeadline, productModel.videoSectionHeadline);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(itemid, type, headline, greeting, customText, publicationStatus, reviewSectionName, pressInfoSectionName, shareCode, reviews, pressInfos, userId, contact, customer, createdAt, internalPageTitle, videoSectionHeadline);
+    return Objects.hash(itemid, type, headline, greeting, customText, publicationStatus, reviewSectionName, pressInfoSectionName, shareCode, reviews, pressInfos, userId, contact, customer, createdAt, internalPageTitle, videoSectionHeadline, template);
   }
 
   @Override
@@ -422,6 +423,7 @@ public class ProductModel   {
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    internalPageTitle: ").append(toIndentedString(internalPageTitle)).append("\n");
     sb.append("    videoSectionHeadline: ").append(toIndentedString(videoSectionHeadline)).append("\n");
+    sb.append("    template: ").append(toIndentedString(template)).append("\n");
     sb.append("}");
     return sb.toString();
   }
