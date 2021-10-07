@@ -50,6 +50,8 @@ interface CustomerCategoryRepository : CrudRepository<CustomerEntity, Int> {
     )
     fun getSize(filter: String, userId: Long): Int
 
+    @Transactional
+    @Modifying
     @Query(
             "DELETE FROM " + TABLE +
                     " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +

@@ -2,9 +2,11 @@ package com.mogree.dubble.storage.repository
 
 import com.mogree.dubble.config.Config
 import com.mogree.dubble.entity.db.ProductEntity
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface ProductCategoryRepository : CrudRepository<ProductEntity, Int> {
@@ -32,6 +34,8 @@ interface ProductCategoryRepository : CrudRepository<ProductEntity, Int> {
     )
     fun getSize(filter: String, userId: Long): Int
 
+    @Transactional
+    @Modifying
     @Query(
             "DELETE FROM " + TABLE +
                     " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
