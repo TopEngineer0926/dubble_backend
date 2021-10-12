@@ -18,8 +18,8 @@ class TemplateController (
             @RequestParam(value = "offset") offset: Int,
             @RequestParam(value = "limit") limit: Int
     ): ResponseEntity<TemplateListResponse> {
-        val list: List<ProductModel> = templateService.getTemplateByStatus(offset, limit)
-        val response = TemplateListResponse(offset, list, limit, templateService.getSizeByStatus("DRAFT"))
+        val list: List<ProductModel> = templateService.getTemplate(offset, limit)
+        val response = TemplateListResponse(offset, list, limit, templateService.getSize())
         return ResponseEntity.ok<TemplateListResponse>(response)
     }
 
@@ -30,7 +30,7 @@ class TemplateController (
             @RequestParam(value = "filter") filter: String
     ): ResponseEntity<TemplateListResponse> {
         val list: List<ProductModel> = templateService.getTemplateByFilter(offset, limit, filter)
-        val response = TemplateListResponse(offset, list, limit, templateService.getSizeByFilter("DRAFT", filter))
+        val response = TemplateListResponse(offset, list, limit, templateService.getSizeByFilter(filter))
         return ResponseEntity.ok<TemplateListResponse>(response)
     }
 }

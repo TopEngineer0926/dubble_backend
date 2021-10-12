@@ -12,43 +12,42 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
     companion object {
         const val TABLE = Config.Database.TABLE_PRODUCT
         const val USER_ID = "user_id"
-        const val PUBLICATION_STATUS = "publication_status"
         const val TEMPLATE_FIELD = "template"
     }
 
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
-                    " WHERE " + PUBLICATION_STATUS + " = :status" +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun getTemplateByStatus(offset: Int?, limit: Int?, status: String, userId: Long): List<ProductEntity>
+    fun getTemplate(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
 
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE " + PUBLICATION_STATUS + " = :status" +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
-    fun getTemplateSizeByStatus(status: String, userId: Long): Int
+    fun getTemplateSize(userId: Long): Int
 
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
-                    " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
-                    " AND " + PUBLICATION_STATUS + " = :status" +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun getTemplateByFilter(offset: Int?, limit: Int?, status: String, filter: String, userId: Long): List<ProductEntity>
+    fun getTemplateByFilter(offset: Int?, limit: Int?, filter: String, userId: Long): List<ProductEntity>
 
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
-                    " AND " + PUBLICATION_STATUS + " = :status" +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
-    fun getTemplateSizeByFilter(status: String, filter: String, userId: Long): Int
+    fun getTemplateSizeByFilter(filter: String, userId: Long): Int
 }

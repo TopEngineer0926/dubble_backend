@@ -12,23 +12,23 @@ class TemplateService(
         private val templateRepository: TemplateRepository
 ) {
 
-    fun getTemplateByStatus(offset: Int, limit: Int): List<ProductModel> {
+    fun getTemplate(offset: Int, limit: Int): List<ProductModel> {
         if (limit == 0)
-            return templateRepository.getTemplateByStatus(offset, getSizeByStatus("DRAFT"), "DRAFT", getCurrentUserId()).toModels()
+            return templateRepository.getTemplate(offset, getSize(), getCurrentUserId()).toModels()
         else
-            return templateRepository.getTemplateByStatus(offset, limit, "DRAFT", getCurrentUserId()).toModels()
+            return templateRepository.getTemplate(offset, limit, getCurrentUserId()).toModels()
     }
 
-    fun getSizeByStatus(status: String): Int =
-            templateRepository.getTemplateSizeByStatus(status, getCurrentUserId())
+    fun getSize(): Int =
+            templateRepository.getTemplateSize(getCurrentUserId())
 
     fun getTemplateByFilter(offset: Int, limit: Int, filter: String): List<ProductModel> {
         if (limit == 0)
-            return templateRepository.getTemplateByFilter(offset, getSizeByFilter("DRAFT", filter), "DRAFT", filter, getCurrentUserId()).toModels()
+            return templateRepository.getTemplateByFilter(offset, getSizeByFilter(filter), filter, getCurrentUserId()).toModels()
         else
-            return templateRepository.getTemplateByFilter(offset, limit, "DRAFT", filter, getCurrentUserId()).toModels()
+            return templateRepository.getTemplateByFilter(offset, limit, filter, getCurrentUserId()).toModels()
     }
 
-    fun getSizeByFilter(status: String, filter: String): Int =
-            templateRepository.getTemplateSizeByFilter(status, filter, getCurrentUserId())
+    fun getSizeByFilter(filter: String): Int =
+            templateRepository.getTemplateSizeByFilter(filter, getCurrentUserId())
 }
