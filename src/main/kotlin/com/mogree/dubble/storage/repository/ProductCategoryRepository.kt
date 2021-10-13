@@ -20,7 +20,8 @@ interface ProductCategoryRepository : CrudRepository<ProductEntity, Int> {
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
-                    " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
+                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
@@ -29,7 +30,8 @@ interface ProductCategoryRepository : CrudRepository<ProductEntity, Int> {
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
+                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
     fun getSize(filter: String, userId: Long): Int
@@ -38,7 +40,8 @@ interface ProductCategoryRepository : CrudRepository<ProductEntity, Int> {
     @Modifying
     @Query(
             "DELETE FROM " + TABLE +
-                    " WHERE " + TEMPLATE_FIELD + " LIKE %:filter%" +
+                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
     fun deleteProductByFilter(filter: String, userId: Long): Int
