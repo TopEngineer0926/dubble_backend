@@ -63,7 +63,7 @@ class ProductNotificationHelper @Autowired constructor(
     @Transactional(readOnly = true)
     fun sendProductPublishedSms(productId: Long, userId: Long) {
         val product = this.getProductOrThrow(productId, userId)
-        var greeting = product.customer?.firstName + " " + product.customer?.lastName
+        var greeting = product.customer?.firstname + " " + product.customer?.lastname
 
         if (!product.customer?.academicDegreePreceding.isNullOrEmpty()) {
             greeting = product.customer?.academicDegreePreceding + " " + greeting

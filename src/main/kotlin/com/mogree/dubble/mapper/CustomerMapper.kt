@@ -10,8 +10,8 @@ import com.mogree.server.gen.model.CustomerModel
 fun CustomerModel.createEntity(user: UserEntity): CustomerEntity {
     val entity = CustomerEntity()
 
-    entity.firstName = this.firstname
-    entity.lastName = this.lastname
+    entity.firstname = this.firstname
+    entity.lastname = this.lastname
     entity.email = this.email
     entity.phoneNumber = this.phoneNumber
     entity.user = user
@@ -26,8 +26,8 @@ fun CustomerModel.createEntity(user: UserEntity): CustomerEntity {
 
 fun CustomerModel.toEntity(entity: CustomerEntity) {
     entity.email = this.email
-    entity.lastName = this.lastname
-    entity.firstName = this.firstname
+    entity.lastname = this.lastname
+    entity.firstname = this.firstname
     entity.phoneNumber = this.phoneNumber
     entity.customerNumber = this.customerNumber
     entity.academicDegreePreceding = this.academicDegreePreceding
@@ -40,8 +40,8 @@ fun CustomerEntity.toModel(): CustomerModel {
     val model = CustomerModel()
 
     model.itemid = this.id.toString()
-    model.firstname = this.firstName
-    model.lastname = this.lastName
+    model.firstname = this.firstname
+    model.lastname = this.lastname
     model.email = this.email
     model.phoneNumber = this.phoneNumber
     model.customerNumber = this.customerNumber

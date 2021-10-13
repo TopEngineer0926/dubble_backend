@@ -14,10 +14,10 @@ class CustomerEntity : EntityAudition() {
     var id: Long = 0
 
     @Column(name = "first_name", nullable = false)
-    lateinit var firstName: String
+    lateinit var firstname: String
 
     @Column(name = "last_name", nullable = false)
-    lateinit var lastName: String
+    lateinit var lastname: String
 
     @Column(name = "email", nullable = true)
     var email: String? = null
