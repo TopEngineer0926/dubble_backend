@@ -120,7 +120,7 @@ class JobSchedulerController (
                 generateProductLink(product)
         ) // set variable `productLink`
         context.setVariable("contact", product.contact)
-        context.setVariable("customer", product.customer)
+        context.setVariable("customer", scheduleEmailRequest.customer)
         context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
 
         if (media.isNotEmpty()) {
@@ -134,7 +134,7 @@ class JobSchedulerController (
 
         val senderName = product.contact.firstName + " " + product.contact.lastName + " - " + user?.companyName
 
-        jobDataMap.put("email", product.customer!!.email!!)
+        jobDataMap.put("email", scheduleEmailRequest.customer!!.email!!)
         jobDataMap.put("subject", subject)
         jobDataMap.put("replyTo", product.contact!!.email!!)
         jobDataMap.put("senderName", senderName)
@@ -161,19 +161,19 @@ class JobSchedulerController (
         val jobDataMap = JobDataMap()
 
         val product = this.getProductOrThrow(scheduleSmsRequest.productId!!.toLong(), getCurrentUserId())
-        var greeting = product.customer?.firstName + " " + product.customer?.lastName
+        var greeting = scheduleSmsRequest.customer?.firstname + " " + scheduleSmsRequest.customer?.lastname
 
-        if (!product.customer?.academicDegreePreceding.isNullOrEmpty()) {
-            greeting = product.customer?.academicDegreePreceding + " " + greeting
+        if (!scheduleSmsRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
+            greeting = scheduleSmsRequest.customer?.academicDegreePreceding + " " + greeting
         }
-        if (!product.customer?.academicDegreePreceding.isNullOrEmpty()) {
-            greeting += " " + product.customer?.academicDegreeSubsequent
+        if (!scheduleSmsRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
+            greeting += " " + scheduleSmsRequest.customer?.academicDegreeSubsequent
         }
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
         val contentText = Config.Sms.PRODUCT_PUBLISHED_TEXT + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
-        jobDataMap.put("phoneNumber", product.customer!!.phoneNumber!!)
+        jobDataMap.put("phoneNumber", scheduleSmsRequest.customer!!.phoneNumber!!)
         jobDataMap.put("content", headerText + contentText)
         return JobBuilder.newJob(SmsJob::class.java)
                 .withIdentity(UUID.randomUUID().toString(), "sms-jobs")
