@@ -1,5 +1,9 @@
 package com.mogree.dubble.schedule.controller
 
+import com.mashape.unirest.http.HttpResponse
+import com.mashape.unirest.http.JsonNode
+import com.mashape.unirest.http.Unirest
+import com.mashape.unirest.http.exceptions.UnirestException
 import com.mogree.dubble.config.Config
 import com.mogree.dubble.config.security.getCurrentUserId
 import com.mogree.dubble.entity.db.ProductEntity
@@ -9,20 +13,27 @@ import com.mogree.dubble.schedule.payload.*
 import com.mogree.dubble.service.media.helper.MediaHelper
 import com.mogree.dubble.storage.repository.ProductRepository
 import com.mogree.dubble.storage.repository.UserRepository
+import com.mogree.dubble.util.extension.asJsonString
 import com.mogree.spring.exception.APIItemNotFoundException
 import org.quartz.*
 import org.quartz.impl.StdSchedulerFactory
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
+import java.nio.charset.StandardCharsets
 import java.time.ZonedDateTime
 import java.util.*
 import kotlin.jvm.Throws
@@ -38,8 +49,17 @@ class JobSchedulerController (
         private val mediaHelper: MediaHelper
 ) {
 
+    @Autowired
+    private val mailSender: JavaMailSender? = null
+
+    @Value("\${spring.mail.sender}")
+    private lateinit var senderEmail: String
+
     @Value("\${web-domain}")
     private lateinit var webDomain: String
+
+    @Value("\${sms.api-url}")
+    private lateinit var apiUrl: String
 
     @PostMapping("/scheduleEmail")
     fun scheduleEmail(@RequestBody scheduleEmailRequest: ScheduleEmailRequest): ResponseEntity<ScheduleEmailResponse> {
@@ -203,5 +223,101 @@ class JobSchedulerController (
                     "Error deleting job. Please try later!")
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body<DeleteJobResponse>(response)
         }
+    }
+
+    @PostMapping("/sendSmsByCategory")
+    fun sendSMSByCategory(@RequestBody sendByCategoryRequest: SendByCategoryRequest): ResponseEntity<SendByCategoryResponse> {
+
+        val product = this.getProductOrThrow(sendByCategoryRequest.productId!!.toLong(), getCurrentUserId())
+        var greeting = sendByCategoryRequest.customer?.firstname + " " + sendByCategoryRequest.customer?.lastname
+
+        if (!sendByCategoryRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
+            greeting = sendByCategoryRequest.customer?.academicDegreePreceding + " " + greeting
+        }
+        if (!sendByCategoryRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
+            greeting += " " + sendByCategoryRequest.customer?.academicDegreeSubsequent
+        }
+
+        val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
+        val contentText = Config.Sms.PRODUCT_PUBLISHED_TEXT + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+
+        sendSMS(sendByCategoryRequest.customer!!.phoneNumber!!, headerText + contentText)
+        val response = SendByCategoryResponse(true, "Sent Successfully!")
+        return ResponseEntity.ok<SendByCategoryResponse>(response)
+    }
+
+    private fun sendSMS(phoneNumber: String, content: String) {
+        val phone = this.modifyNumberFormat(phoneNumber)
+        try {
+            val jsonResponse: HttpResponse<JsonNode> = Unirest.post(apiUrl)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(SmsModel(content, listOf(phone)).asJsonString())
+                    .asJson()
+            val response: String = jsonResponse.body.toString()
+            Config.LOGGER.info { "Sent sms to the phone number '${phone}', response: $response" }
+        } catch (ex: UnirestException) {
+            Config.LOGGER.warn { "Error sending sms to the phone number '${phone}', cause: ${ex.message}" }
+        }
+    }
+
+    /* Private Methods */
+
+    private fun modifyNumberFormat(phoneNumber: String): String {
+        val plus = "+"
+        return if (phoneNumber.startsWith(plus)) {
+            phoneNumber.replace(plus, "")
+        } else {
+            phoneNumber
+        }
+    }
+
+    /* Private Inner Class */
+
+    private inner class SmsModel(
+            val messageContent: String,
+            val recipientAddressList: List<String>
+    )
+
+    @PostMapping("/sendEmailByCategory")
+    fun buildEmailJobDetail(@RequestBody sendByCategoryRequest: SendByCategoryRequest): ResponseEntity<SendByCategoryResponse> {
+
+        val product = this.getProductOrThrow(sendByCategoryRequest.productId!!.toLong(), getCurrentUserId())
+        val user = userRepo.findByIdOrNull(getCurrentUserId())
+        val media = mediaHelper.getMediaList(Config.Database.TABLE_CONTACT, product.contact.id.toInt(), getCurrentUserId())
+
+        val context = Context() // create email context
+        context.setVariable(
+                Config.Mail.Variable.PRODUCT_LINK,
+                generateProductLink(product)
+        ) // set variable `productLink`
+        context.setVariable("contact", product.contact)
+        context.setVariable("customer", sendByCategoryRequest.customer)
+        context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
+
+        if (media.isNotEmpty()) {
+            context.setVariable("media", media.first())
+        }
+
+        val content: String =
+                templateEngine.process(Config.Mail.Template.PRODUCT_PUBLISHED, context) // create email content
+
+        val subject = Config.Mail.Subject.PRODUCT_PUBLISHED + " " + user?.companyName
+
+        val senderName = product.contact.firstName + " " + product.contact.lastName + " - " + user?.companyName
+
+        sendMail(subject, content, sendByCategoryRequest.customer!!.email!!, product.contact!!.email!!, senderName)
+        val response = SendByCategoryResponse(true, "Sent Successfully!")
+        return ResponseEntity.ok<SendByCategoryResponse>(response)
+    }
+
+    private fun sendMail(subject: String, content: String, to: String, replyTo: String, senderName: String) {
+        val mimeMessage = mailSender!!.createMimeMessage()
+        val messageHelper = MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_NO, StandardCharsets.UTF_8.name())
+        messageHelper.setTo(to)
+        messageHelper.setReplyTo(replyTo)
+        messageHelper.setSubject(subject)
+        messageHelper.setText(content, true)
+        messageHelper.setFrom(senderEmail, senderName)
+        mailSender!!.send(mimeMessage)
     }
 }
