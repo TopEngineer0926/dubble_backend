@@ -40,7 +40,8 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
-                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " WHERE (NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " OR " + TEMPLATE_FIELD + " IS NULL)" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
@@ -49,7 +50,8 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " WHERE (NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " OR " + TEMPLATE_FIELD + " IS NULL)" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
     fun getSizeAll(userId: Long): Int
