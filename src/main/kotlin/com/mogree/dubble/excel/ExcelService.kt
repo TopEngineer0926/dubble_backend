@@ -69,7 +69,7 @@ class ReportController(
                 headers.add("academic_degree_subsequent")
             if (header.toLowerCase().contains("email")) // eMail
                 headers.add("email")
-            if (header.toLowerCase().contains("telefonnummer")) // Telefonnummer(+43…)
+            if (header.toLowerCase().contains("mobilnummer")) // Mobilnummer(+43…)
                 headers.add("phone_number")
             if (header.toLowerCase().contains("unternehmen")) // Unternehmen
                 headers.add("company")
