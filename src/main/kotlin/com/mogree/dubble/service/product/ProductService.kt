@@ -1,5 +1,6 @@
 package com.mogree.dubble.service.product
 
+import com.mogree.dubble.category.payload.ProductListResponse
 import com.mogree.dubble.config.Config
 import com.mogree.dubble.config.Config.EntityName.PRODUCT
 import com.mogree.dubble.config.Config.ResponseMessage
@@ -14,6 +15,7 @@ import com.mogree.dubble.service.product.helper.ProductHelper
 import com.mogree.dubble.storage.repository.ProductRepository
 import com.mogree.dubble.storage.specification.ProductSpecification
 import com.mogree.server.gen.api.ProductApiDelegate
+import com.mogree.server.gen.model.ProductModel
 import com.mogree.server.gen.param.*
 import com.mogree.spring.exception.APIBadRequestException
 import com.mogree.spring.exception.APIConflictException
@@ -23,6 +25,7 @@ import com.mogree.spring.response.StatusResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Primary
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -77,13 +80,11 @@ class ProductService @Autowired constructor(
 
     override fun getProductList(paramPaging: ParamPaging, paramGetProductList: ParamGetProductList?): Any {
         // find all by specification
-        val mappedModels = this.productRepo.findAll(ProductSpecification(getCurrentUserId(), paramPaging)).toModels()
+        val mappedModels = this.productRepo.getProductAll(paramPaging.offset, paramPaging.limit, getCurrentUserId()).toModels()
 
         // map to response object
-        return ListResponse(
-            mappedModels, mappedModels.size, paramPaging.offset,
-            if (paramPaging.limit != null && paramPaging.limit > 0) paramPaging.limit else null
-        )
+        val response = ProductListResponse(paramPaging.offset, mappedModels, paramPaging.limit, this.productRepo.getSizeAll(getCurrentUserId()))
+        return ResponseEntity.ok<ProductListResponse>(response)
     }
 
     override fun updateProduct(

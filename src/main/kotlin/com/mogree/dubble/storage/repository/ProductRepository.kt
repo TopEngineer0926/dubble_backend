@@ -14,6 +14,8 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
 
     companion object {
         const val TABLE = Config.Database.TABLE_PRODUCT
+        const val TEMPLATE_FIELD = "template"
+        const val USER_ID = "user_id"
     }
 
     @Query
@@ -35,4 +37,20 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
     @Query
     fun existsByCustomerId(customerId: Long): Boolean
 
+    @Query(
+            "SELECT * " +
+                    "FROM " + TABLE +
+                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + USER_ID + " = :userId" +
+                    " LIMIT :offset , :limit", nativeQuery = true
+    )
+    fun getProductAll(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
+
+    @Query(
+            "SELECT COUNT(*) " +
+                    "FROM " + TABLE +
+                    " WHERE NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND " + USER_ID + " = :userId", nativeQuery = true
+    )
+    fun getSizeAll(userId: Long): Int
 }
