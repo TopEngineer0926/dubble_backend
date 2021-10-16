@@ -137,7 +137,7 @@ class ReportController(
             model.academicDegreePreceding(datas.get(i).getString("academic_degree_preceding"))
             model.academicDegreeSubsequent(datas.get(i).getString("academic_degree_subsequent"))
             model.email(datas.get(i).getString("email"))
-            model.phoneNumber(datas.get(i).getString("phone_number"))
+            model.phoneNumber(validateNumber(datas.get(i).getString("phone_number")))
             model.companyName(datas.get(i).getString("company"))
             var category = datas.get(i).getString("category").split("|")
             var structuredCategory = "|"
@@ -151,6 +151,20 @@ class ReportController(
 
             insertNewCategory(datas.get(i).getString("category"))
         }
+    }
+
+    fun validateNumber(str: String) : String {
+
+        // Remove all other Chars, leave only Numbers 0,1,2,3,4,5,6,7,8,9, and a plus „+“ sign
+        var temp = str.replace(Regex("[^\\d+]"), "")
+
+        temp = temp.replace(Regex("^0043"), "+43")
+
+        temp = temp.replace(Regex("^043"),"+43")
+
+        temp = temp.replace(Regex("^0"), "+43")
+
+        return temp
     }
 
     fun insertNewCategory(
