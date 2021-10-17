@@ -21,7 +21,7 @@ spring:
       org:
         quartz:
           threadPool:
-            threadCount: 5
+            threadCount: 10
   mail:
     host: mail.dubble.at
     username: service@dubble.at
