@@ -42,10 +42,19 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
                     "FROM " + TABLE +
                     " WHERE (NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " OR " + TEMPLATE_FIELD + " IS NULL)" +
+                    " AND " + USER_ID + " = :userId", nativeQuery = true
+    )
+    fun getProductAll(userId: Long): List<ProductEntity>
+
+    @Query(
+            "SELECT * " +
+                    "FROM " + TABLE +
+                    " WHERE (NOT LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " OR " + TEMPLATE_FIELD + " IS NULL)" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun getProductAll(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
+    fun getProductLimit(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
 
     @Query(
             "SELECT COUNT(*) " +

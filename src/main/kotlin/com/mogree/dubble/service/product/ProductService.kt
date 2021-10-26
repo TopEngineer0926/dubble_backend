@@ -80,7 +80,11 @@ class ProductService @Autowired constructor(
 
     override fun getProductList(paramPaging: ParamPaging, paramGetProductList: ParamGetProductList?): Any {
         // find all by specification
-        val mappedModels = this.productRepo.getProductAll(paramPaging.offset, paramPaging.limit, getCurrentUserId()).toModels()
+        var mappedModels = this.productRepo.getProductAll(getCurrentUserId()).toModels()
+
+        if(paramPaging.limit == 5){ //for dashboard
+            mappedModels = this.productRepo.getProductLimit(paramPaging.offset, paramPaging.limit, getCurrentUserId()).toModels()
+        }
 
         // map to response object
         val response = ProductListResponse(paramPaging.offset, mappedModels, paramPaging.limit, this.productRepo.getSizeAll(getCurrentUserId()))
