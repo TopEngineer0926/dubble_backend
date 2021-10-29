@@ -21,4 +21,20 @@ class UserCategoryService(
 
     fun updateTemplateById(newCategory: String): Int =
             userCategoryRepository.updateTemplate(newCategory, getCurrentUserId())
+
+    fun updateMaster(masterId: Long): Int =
+            userCategoryRepository.updateMaster(masterId, getCurrentUserId())
+
+    fun getMasterIdByEmail(masterEmail: String): Long? =
+            userCategoryRepository.getMasterIdByEmail(masterEmail)
+
+    fun getMasterEmail(userId: Long): String? =
+            userCategoryRepository.getMasterEmail(userId)
+
+    fun getMasterIdField(): Long? =
+            userCategoryRepository.getMasterIdField(getCurrentUserId())
+
+    fun clearMaster(): Int? =
+            userCategoryRepository.clearMaster(getCurrentUserId())
+
 }

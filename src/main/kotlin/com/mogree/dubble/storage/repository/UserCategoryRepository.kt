@@ -15,6 +15,10 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
         const val TABLE = Config.Database.TABLE_USER
         const val CATEGORY_FIELD = "category"
         const val TEMPLATE_FIELD = "template"
+        const val ID = "id"
+        const val MASTER_ID_FIELD = "master_id"
+        const val EMAIL_FIELD = "email"
+        const val ACTIVATE_CODE = 1
     }
 
     @Query(
@@ -48,4 +52,43 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
                     " WHERE id = :currentUserId", nativeQuery = true
     )
     fun updateTemplate(newCategory: String, currentUserId: Long?): Int
+
+    @Query(
+            "SELECT " + ID +
+                    " FROM " + TABLE +
+                    " WHERE email = :masterEmail and is_activated = " + ACTIVATE_CODE, nativeQuery = true
+    )
+    fun getMasterIdByEmail(masterEmail: String?): Long?
+
+    @Query(
+            "SELECT " + EMAIL_FIELD +
+                    " FROM " + TABLE +
+                    " WHERE id = :userId", nativeQuery = true
+    )
+    fun getMasterEmail(userId: Long?): String?
+
+    @Query(
+            "SELECT " + MASTER_ID_FIELD +
+                    " FROM " + TABLE +
+                    " WHERE id = :currentUserId", nativeQuery = true
+    )
+    fun getMasterIdField(currentUserId: Long?): Long?
+
+    @Transactional
+    @Modifying
+    @Query(
+            "UPDATE " + TABLE +
+                    " SET " + MASTER_ID_FIELD + " = :masterId" +
+                    " WHERE id = :currentUserId", nativeQuery = true
+    )
+    fun updateMaster(masterId: Long, currentUserId: Long?): Int
+
+    @Transactional
+    @Modifying
+    @Query(
+            "UPDATE " + TABLE +
+                    " SET " + MASTER_ID_FIELD + " = Null" +
+                    " WHERE id = :currentUserId", nativeQuery = true
+    )
+    fun clearMaster(currentUserId: Long?): Int
 }

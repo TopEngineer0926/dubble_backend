@@ -52,4 +52,48 @@ class UserCategoryController (
             return ResponseEntity.ok<CategoryResponse>(response)
         }
     }
+
+    @PutMapping("/master")
+    fun updateMaster(@RequestBody newMasterEmail: String): ResponseEntity<CategoryResponse> {
+
+        var masterId = userCategoryService.getMasterIdByEmail(newMasterEmail)
+        if (masterId != null) {
+
+            var result = userCategoryService.updateMaster(masterId)
+            if (result != null) {
+                val response = CategoryResponse("success")
+                return ResponseEntity.ok<CategoryResponse>(response)
+            } else {
+                val response = CategoryResponse("fail")
+                return ResponseEntity.ok<CategoryResponse>(response)
+            }
+
+        } else {
+            val response = CategoryResponse("no master")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        }
+
+    }
+
+    @GetMapping("/master")
+    fun getMasterEmail(): ResponseEntity<CategoryResponse> {
+
+        val masterId = userCategoryService.getMasterIdField()
+        if (masterId != null) {
+            val masterEmail = userCategoryService.getMasterEmail(masterId)
+            val response = CategoryResponse(masterEmail)
+            return ResponseEntity.ok<CategoryResponse>(response)
+        } else {
+            val response = CategoryResponse("")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        }
+    }
+
+    @DeleteMapping("/master")
+    fun clearMaster(): ResponseEntity<CategoryResponse> {
+
+        val result = userCategoryService.clearMaster()
+        val response = CategoryResponse("success")
+        return ResponseEntity.ok<CategoryResponse>(response)
+    }
 }
