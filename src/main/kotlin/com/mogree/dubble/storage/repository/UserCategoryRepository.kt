@@ -61,11 +61,11 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
     fun getMasterIdByEmail(masterEmail: String?): Long?
 
     @Query(
-            "SELECT " + EMAIL_FIELD +
+            "SELECT *" +
                     " FROM " + TABLE +
                     " WHERE id = :userId", nativeQuery = true
     )
-    fun getMasterEmail(userId: Long?): String?
+    fun getMasterAllInfo(userId: Long?): UserEntity?
 
     @Query(
             "SELECT " + MASTER_ID_FIELD +
@@ -91,4 +91,11 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
                     " WHERE id = :currentUserId", nativeQuery = true
     )
     fun clearMaster(currentUserId: Long?): Int
+
+    @Query(
+            "SELECT path " +
+                    " FROM media " +
+                    " WHERE user_id = :currentUserId and media_type=1 and foreign_table like 'account'", nativeQuery = true
+    )
+    fun getMasterLogo(currentUserId: Long?): String?
 }

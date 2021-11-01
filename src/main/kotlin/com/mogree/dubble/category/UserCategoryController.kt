@@ -2,6 +2,11 @@ package com.mogree.dubble.category
 
 import com.mogree.dubble.category.payload.CategoryResponse
 import com.mogree.dubble.category.payload.CategoryUpdateRequest
+import com.mogree.dubble.category.payload.MasterResponse
+import com.mogree.dubble.entity.db.MediaEntity
+import com.mogree.dubble.entity.db.UserEntity
+import com.mogree.server.gen.model.MediaModel
+import com.mogree.spring.response.DetailResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -76,16 +81,16 @@ class UserCategoryController (
     }
 
     @GetMapping("/master")
-    fun getMasterEmail(): ResponseEntity<CategoryResponse> {
+    fun getMasterAllInfo(): ResponseEntity<MasterResponse> {
 
         val masterId = userCategoryService.getMasterIdField()
         if (masterId != null) {
-            val masterEmail = userCategoryService.getMasterEmail(masterId)
-            val response = CategoryResponse(masterEmail)
-            return ResponseEntity.ok<CategoryResponse>(response)
+            val masterAllInfo: UserEntity? = userCategoryService.getMasterAllInfo(masterId)
+            val response = MasterResponse(true, masterAllInfo)
+            return ResponseEntity.ok<MasterResponse>(response)
         } else {
-            val response = CategoryResponse("")
-            return ResponseEntity.ok<CategoryResponse>(response)
+            val response = MasterResponse(false, null)
+            return ResponseEntity.ok<MasterResponse>(response)
         }
     }
 
@@ -95,5 +100,25 @@ class UserCategoryController (
         val result = userCategoryService.clearMaster()
         val response = CategoryResponse("success")
         return ResponseEntity.ok<CategoryResponse>(response)
+    }
+
+    @GetMapping("/masterlogo")
+    fun getMasterLogo(): ResponseEntity<CategoryResponse> {
+
+        val masterId = userCategoryService.getMasterIdField()
+        if (masterId != null) {
+            val masterLogoURL = userCategoryService.getMasterLogo(masterId)
+            val response = CategoryResponse(masterLogoURL)
+            return ResponseEntity.ok<CategoryResponse>(response)
+        } else {
+            val response = CategoryResponse("")
+            return ResponseEntity.ok<CategoryResponse>(response)
+        }
+    }
+
+    @PutMapping("/masterlogo")
+    fun copyMasterLogo(@RequestBody masterLogo: String): ResponseEntity<MediaEntity> {
+        var result = userCategoryService.copyMasterLogo(masterLogo)
+        return ResponseEntity.ok<MediaEntity>(result)
     }
 }
