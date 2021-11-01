@@ -26,7 +26,7 @@ interface MonitorRepositoryWithQuery : CrudRepository<MonitorEntity, Int> {
     @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
-                    " WHERE userId = :currentUserId", nativeQuery = true
+                    " WHERE userId=ANY(select id from user WHERE id=:currentUserId or master_id=:currentUserId)", nativeQuery = true
     )
     fun getSize(currentUserId: Long?): Int
 
