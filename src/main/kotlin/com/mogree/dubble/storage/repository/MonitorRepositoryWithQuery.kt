@@ -17,7 +17,7 @@ interface MonitorRepositoryWithQuery : CrudRepository<MonitorEntity, Int> {
     @Query(
             "SELECT * " +
                     "FROM " + TABLE +
-                    " WHERE userId = :currentUserId" +
+                    " WHERE userId=ANY(select id from user WHERE id=:currentUserId or master_id=:currentUserId)" +
                     " ORDER BY " + DATE_COLUMN + " DESC" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
@@ -29,4 +29,11 @@ interface MonitorRepositoryWithQuery : CrudRepository<MonitorEntity, Int> {
                     " WHERE userId = :currentUserId", nativeQuery = true
     )
     fun getSize(currentUserId: Long?): Int
+
+    @Query(
+            "SELECT id " +
+                    "FROM user" +
+                    " WHERE master_id = :currentUserId", nativeQuery = true
+    )
+    fun getAllSubAccounts(currentUserId: Long?): ArrayList<Int>
 }

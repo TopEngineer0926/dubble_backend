@@ -4,6 +4,7 @@ import com.mogree.dubble.entity.db.MonitorEntity
 import com.mogree.dubble.service.monitor.payload.MonitorListResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import com.mogree.dubble.config.security.getCurrentUserId
 
 @RestController
 @RequestMapping("monitor")
@@ -16,6 +17,8 @@ class MonitorController (
             @RequestParam(value = "offset") offset: Int,
             @RequestParam(value = "limit") limit: Int
     ): ResponseEntity<MonitorListResponse> {
+//        var subAccounts: ArrayList<Int> = monitorService.getAllSubAccounts()
+//        subAccounts.add(getCurrentUserId().toInt())
         val list: List<MonitorEntity> = monitorService.getMonitors(offset, limit)
         val response = MonitorListResponse(offset, list, limit, monitorService.getSize())
         return ResponseEntity.ok<MonitorListResponse>(response)

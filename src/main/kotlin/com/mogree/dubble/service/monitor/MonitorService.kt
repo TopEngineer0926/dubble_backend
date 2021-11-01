@@ -53,4 +53,7 @@ class MonitorService(
                 monitorRepository.delete(task)
                 ResponseEntity<Void>(HttpStatus.ACCEPTED)
             }.orElse(ResponseEntity.notFound().build())
+
+    fun getAllSubAccounts(): ArrayList<Int> =
+            monitorRepositoryWithQuery.getAllSubAccounts(getCurrentUserId())
 }
