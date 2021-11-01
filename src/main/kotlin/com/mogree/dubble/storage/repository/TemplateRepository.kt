@@ -25,6 +25,15 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
     fun getTemplate(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
 
     @Query(
+            "SELECT * " +
+                    "FROM " + TABLE +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND (" + USER_ID + " = :userId" + " OR " + USER_ID + " = :masterId)" +
+                    " LIMIT :offset , :limit", nativeQuery = true
+    )
+    fun getTemplateWithMaster(offset: Int?, limit: Int?, userId: Long, masterId: Long): List<ProductEntity>
+
+    @Query(
             "SELECT COUNT(*) " +
                     "FROM " + TABLE +
                     " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
