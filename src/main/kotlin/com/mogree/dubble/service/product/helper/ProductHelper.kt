@@ -43,8 +43,8 @@ class ProductHelper @Autowired constructor(
     private lateinit var player: String
 
     fun getProductByIdAndUserId(productId: Long, userId: Long): ProductEntity {
-        return productRepo.findByIdAndUserId(productId, userId)
-            .orElseThrow { APIItemNotFoundException(Config.ResponseMessage.notFound(Config.EntityName.PRODUCT)) } // get or throw
+        return productRepo.getProductById(productId)
+//            .orElseThrow { APIItemNotFoundException(Config.ResponseMessage.notFound(Config.EntityName.PRODUCT)) } // get or throw
     }
 
     fun getOrCreateContact(contactModel: ContactModel?): ContactEntity {

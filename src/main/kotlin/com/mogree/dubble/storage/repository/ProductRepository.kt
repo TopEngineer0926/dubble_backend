@@ -64,4 +64,11 @@ interface ProductRepository : CrudRepository<ProductEntity, Long>, JpaSpecificat
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
     fun getSizeAll(userId: Long): Int
+
+    @Query(
+            "SELECT * " +
+                    "FROM " + TABLE +
+                    " WHERE id=:id", nativeQuery = true
+    )
+    fun getProductById(id: Long): ProductEntity
 }
