@@ -5,6 +5,7 @@ import com.mogree.dubble.config.security.getCurrentUserId
 import com.mogree.dubble.entity.db.MediaEntity
 import com.mogree.dubble.entity.db.UserEntity
 import com.mogree.dubble.storage.repository.MediaRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 
@@ -13,6 +14,8 @@ class UserCategoryService(
         private val userCategoryRepository: UserCategoryRepository,
         private val mediaRepository: MediaRepository
 ) {
+    @Value("\${media-upload.image-path}")
+    private lateinit var uploadPath: String
 
     fun getCategoryById(): String? =
             userCategoryRepository.getCategory(getCurrentUserId())
@@ -44,12 +47,12 @@ class UserCategoryService(
     fun getMasterLogo(userId: Long): String? =
             userCategoryRepository.getMasterLogo(userId)
 
-    fun copyMasterLogo(masterLogo: String): MediaEntity? {
+    fun copyMasterLogo(masterLogoFileName: String): MediaEntity? {
         val entity = MediaEntity()
         entity.foreignId = getCurrentUserId().toInt()
         entity.foreignTable = "account"
-        entity.fileName = masterLogo.split('/')[1]
-        entity.path = masterLogo
+        entity.fileName = masterLogoFileName
+        entity.path = uploadPath + "/" + masterLogoFileName
         entity.mediaType = 1
         entity.userid = getCurrentUserId()
         return mediaRepository.save(entity)

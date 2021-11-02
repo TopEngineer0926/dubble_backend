@@ -117,8 +117,8 @@ class UserCategoryController (
     }
 
     @PutMapping("/masterlogo")
-    fun copyMasterLogo(@RequestBody masterLogo: String): ResponseEntity<MediaEntity> {
-        var result = userCategoryService.copyMasterLogo(masterLogo)
+    fun copyMasterLogo(@RequestBody masterLogoFileName: String): ResponseEntity<MediaEntity> {
+        var result = userCategoryService.copyMasterLogo(masterLogoFileName)
         return ResponseEntity.ok<MediaEntity>(result)
     }
 }

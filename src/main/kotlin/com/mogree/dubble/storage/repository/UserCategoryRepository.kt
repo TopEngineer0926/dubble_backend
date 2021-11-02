@@ -93,7 +93,7 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
     fun clearMaster(currentUserId: Long?): Int
 
     @Query(
-            "SELECT path " +
+            "SELECT file_name " +
                     " FROM media " +
                     " WHERE user_id = :currentUserId and media_type=1 and foreign_table like 'account'", nativeQuery = true
     )
