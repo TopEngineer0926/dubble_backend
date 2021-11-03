@@ -8,7 +8,6 @@ import com.mogree.spring.exception.APIUnprocessableEntityException
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 
-
 @Component
 class MediaUploadUtil(
     private val mediaComponents: List<MediaComponent>,
@@ -24,6 +23,16 @@ class MediaUploadUtil(
         val uploadImpl = getImpl(fileBytes)
             ?: throw APIUnprocessableEntityException(Config.ErrorMessagesGerman.EXTENSION_NOT_IMPLEMENTED)
         return uploadImpl.upload(file, title)
+    }
+
+    /**
+     * Duplicate media with another new name
+     */
+    fun copyMedia(fileName: String): MediaData {
+        val imageComponent = mediaComponents.find { uploadComponent -> uploadComponent.validMimeTypes().contains("image/png")}
+                ?: throw APIUnprocessableEntityException(Config.ErrorMessagesGerman.EXTENSION_NOT_IMPLEMENTED)
+
+        return imageComponent.copy(fileName)
     }
 
     /**

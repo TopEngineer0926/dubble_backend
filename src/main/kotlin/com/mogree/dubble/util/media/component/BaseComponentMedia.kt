@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.io.*
 import java.math.BigInteger.valueOf
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.time.OffsetDateTime
 
 /**
@@ -24,7 +27,6 @@ abstract class BaseComponentMedia : MediaComponent {
      * the basic upload logic, can be overwritten by the impl
      */
     override fun upload(file: MultipartFile, title: String?): MediaData {
-
         val newFileName = generateUniqueFileName((getByteArray(file)))
 
         if (!validate(file)) {
@@ -42,6 +44,33 @@ abstract class BaseComponentMedia : MediaComponent {
                 stream.write(file.bytes)
                 stream.flush()
             }
+
+            return MediaData(newFileName, path, getMediaType())
+        } catch (e: IOException) {
+            throw APIInternalServerException(Config.ErrorMessagesGerman.WRITE_FILE(newFileName))
+        }
+    }
+
+    /**
+     * the basic upload logic, can be overwritten by the impl
+     */
+    override fun copy(fileName: String): MediaData {
+
+        val fileExtension = fileName.split('.')[fileName.split('.').size - 1]
+
+        val filePath = getPath() + "/" + fileName
+
+        val newFileName = generateUniqueFileNameNew(fileExtension)
+
+        try {
+            val path = getPath() + "/" + newFileName
+
+            val mediaFile = File(path)
+            if (!mediaFile.createNewFile()) {
+                throw APIInternalServerException(Config.ErrorMessagesGerman.CREATE_FILE(newFileName))
+            }
+
+            Files.copy(Paths.get(filePath), Paths.get(path), StandardCopyOption.REPLACE_EXISTING)
 
             return MediaData(newFileName, path, getMediaType())
         } catch (e: IOException) {
@@ -77,6 +106,16 @@ abstract class BaseComponentMedia : MediaComponent {
             var newFileName = ""
             newFileName += valueOf(OffsetDateTime.now().toInstant().toEpochMilli())
             newFileName += getFileExtension(fileBytes)
+            return newFileName
+        }
+
+        /**
+         * returns a unique filename with milli seconds
+         */
+        fun generateUniqueFileNameNew(fileExtension: String): String {
+            var newFileName = ""
+            newFileName += valueOf(OffsetDateTime.now().toInstant().toEpochMilli())
+            newFileName += '.' + fileExtension
             return newFileName
         }
 

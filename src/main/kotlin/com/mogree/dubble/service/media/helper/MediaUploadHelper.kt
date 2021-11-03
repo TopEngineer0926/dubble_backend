@@ -71,4 +71,19 @@ class MediaUploadHelper(
 
         return mediaRepository.save(entity)
     }
+
+    /*
+    * duplicate media with another new name
+    */
+    fun copyMedia(mediaFileName: String): MediaEntity {
+        val mediaData = mediaUploadUtil.copyMedia(mediaFileName)
+        return saveMedia(
+            mediaData,
+            getCurrentUserId().toInt(),
+            "account",
+            null,
+            null,
+            null
+        )
+    }
 }

@@ -19,6 +19,11 @@ interface MediaComponent {
     fun upload(file: MultipartFile,title:String?): MediaData
 
     /**
+     * returns path, filename and mediatype
+     */
+    fun copy(fileName: String): MediaData
+
+    /**
      * where the uploaded file should be saved
      */
     fun getPath(): String

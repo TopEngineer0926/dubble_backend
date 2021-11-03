@@ -2,6 +2,7 @@ package com.mogree.dubble.service.media
 
 import com.mogree.dubble.config.Config
 import com.mogree.dubble.config.security.getCurrentUserId
+import com.mogree.dubble.entity.db.MediaEntity
 import com.mogree.dubble.service.media.helper.MediaDeleteHelper
 import com.mogree.dubble.service.media.helper.MediaHelper
 import com.mogree.dubble.service.media.helper.MediaUploadHelper
@@ -26,6 +27,10 @@ class MediaService(
     private val mediaDeleteHelper: MediaDeleteHelper,
     private val vimeoUploadHelper: VimeoUploadHelper
 ) : MediaApiDelegate {
+
+    fun copyMedia(mediaFileName: String): MediaEntity {
+        return mediaUploadHelper.copyMedia(mediaFileName)
+    }
 
     override fun uploadImage(paramUploadImage: ParamUploadImage?): Any {
         val model = paramUploadImage?.let {
