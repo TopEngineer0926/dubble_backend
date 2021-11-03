@@ -35,10 +35,11 @@ interface CustomerCategoryRepository : CrudRepository<CustomerEntity, Int> {
 
     @Query(
             "SELECT * " +
-                    "FROM " + TABLE +
-                    " WHERE " + USER_ID + " = :userId", nativeQuery = true
+                    " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +
+                    " AND " + USER_ID + " = :userId" +
+                    " LIMIT :offset , :limit", nativeQuery = true
     )
-    fun getCustomerByFilter(userId: Long): List<CustomerEntity>
+    fun getCustomerByFilter(offset: Int?, limit: Int?, filter: String, userId: Long): List<CustomerEntity>
 
     @Query(
             "SELECT COUNT(*) " +

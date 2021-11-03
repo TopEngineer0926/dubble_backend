@@ -20,9 +20,9 @@ class CustomerCategoryService(
 
     fun getCustomerByFilter(offset: Int, limit: Int, filter: String): List<CustomerModel> {
         if (limit == 0)
-            return customerCategoryRepository.getCustomerByFilter(getCurrentUserId()).toModels()
+            return customerCategoryRepository.getCustomerByFilter(offset, getSize(filter),filter, getCurrentUserId()).toModels()
         else
-            return customerCategoryRepository.getCustomerByFilter(getCurrentUserId()).toModels()
+            return customerCategoryRepository.getCustomerByFilter(offset, limit, filter, getCurrentUserId()).toModels()
     }
 
     fun getSize(filter: String): Int =
