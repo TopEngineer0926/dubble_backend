@@ -35,6 +35,7 @@ interface CustomerCategoryRepository : CrudRepository<CustomerEntity, Int> {
 
     @Query(
             "SELECT * " +
+                    " From " + TABLE +
                     " WHERE " + CATEGORY_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId" +
                     " LIMIT :offset , :limit", nativeQuery = true
