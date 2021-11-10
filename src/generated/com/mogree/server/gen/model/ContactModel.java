@@ -18,6 +18,7 @@ public class ContactModel   {
   private String phoneNumber = null;
   private String lastname = null;
   private String abbreviation = null;
+  private Integer inviteStatus = null;
   private Integer type = 8;
 
   /**
@@ -114,7 +115,7 @@ public class ContactModel   {
     return this;
   }
 
-  
+
   @ApiModelProperty(example = "FL", value = "Kurzzeichen")
   @JsonProperty("abbreviation")
   public String getAbbreviation() {
@@ -122,6 +123,23 @@ public class ContactModel   {
   }
   public void setAbbreviation(String abbreviation) {
     this.abbreviation = abbreviation;
+  }
+
+  /**
+   **/
+  public ContactModel inviteStatus(Integer inviteStatus) {
+    this.inviteStatus = inviteStatus;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "0", value = "0")
+  @JsonProperty("invite_status")
+  public Integer getInviteStatus() {
+    return inviteStatus;
+  }
+  public void setInviteStatus(Integer inviteStatus) {
+    this.inviteStatus = inviteStatus;
   }
 
   /**

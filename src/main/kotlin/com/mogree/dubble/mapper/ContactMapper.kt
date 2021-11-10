@@ -29,6 +29,7 @@ fun ContactEntity.toModel(): ContactModel {
     model.firstname = this.firstName
     model.phoneNumber = this.phoneNumber
     model.abbreviation = this.abbreviation
+    model.inviteStatus = this.inviteStatus
 
     return model
 }
@@ -39,6 +40,7 @@ fun ContactModel.toEntity(entity: ContactEntity) {
     entity.firstName = this.firstname
     entity.phoneNumber = this.phoneNumber
     entity.abbreviation = this.abbreviation
+    entity.inviteStatus = this.inviteStatus
 }
 
 fun List<ContactEntity>.toModels(): List<ContactModel> {

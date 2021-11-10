@@ -31,6 +31,9 @@ class ContactEntity : EntityAudition() {
     @Column(name = "abbreviation", nullable = true)
     var abbreviation: String? = null
 
+    @Column(name = "invite_status", nullable = true)
+    var inviteStatus: Int? = null
+
     /* ***** Relations ***** */
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
