@@ -71,4 +71,7 @@ class UserEntity : EntityAudition() {
 
     @Column(name = "template", nullable = true)
     var template: String? = null
+
+    @Column(name = "master_id", nullable = true)
+    var masterId: Long? = null
 }

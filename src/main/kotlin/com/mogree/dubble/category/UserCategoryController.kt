@@ -121,4 +121,44 @@ class UserCategoryController (
         var result = userCategoryService.copyMasterLogo(masterLogoFileName)
         return ResponseEntity.ok<MediaEntity>(result)
     }
+
+    @GetMapping("/invite/{contact_id}")
+    fun sendInvite(@PathVariable contact_id: String): ResponseEntity<CategoryResponse> {
+        // get contact information
+        val contactInfo = userCategoryService.getContactInfo(contact_id)
+
+        // get current user information
+        val currentUserInfo = userCategoryService.getCurrentUserInfo()
+
+        // create a new user by referring contact information and current user information
+        val newUser = userCategoryService.createNewInviteUser(
+                contactInfo.email,
+                contactInfo.firstName,
+                contactInfo.lastName,
+                1,
+                currentUserInfo?.companyName,
+                currentUserInfo?.mainColor,
+                currentUserInfo?.secondaryColor,
+                currentUserInfo?.logoPosition,
+                currentUserInfo.id)
+
+        // contact db update invite_status field
+        contactInfo.inviteStatus = 1
+        userCategoryService.updateContactInviteField(contactInfo)
+
+        // copy logo information
+        // 1. get master logo file name (current user logo file name)
+        val masterLogoFileName = userCategoryService.getMasterLogo(currentUserInfo.id)
+
+        // 2. copy logo into new user logo
+        if (masterLogoFileName != "" && masterLogoFileName != null) {
+            userCategoryService.copyMasterLogoNew(masterLogoFileName, newUser.id)
+        }
+
+        // after that sent an invite email
+        userCategoryService.sendResetPasswordEmail(newUser.id)
+
+        val response = CategoryResponse("Invite Sent")
+        return ResponseEntity.ok<CategoryResponse>(response)
+    }
 }

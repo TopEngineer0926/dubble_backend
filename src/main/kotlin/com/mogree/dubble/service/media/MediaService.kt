@@ -32,6 +32,10 @@ class MediaService(
         return mediaUploadHelper.copyMedia(mediaFileName)
     }
 
+    fun copyMediaNew(mediaFileName: String, userId: Long): MediaEntity {
+        return mediaUploadHelper.copyMediaNew(mediaFileName, userId)
+    }
+
     override fun uploadImage(paramUploadImage: ParamUploadImage?): Any {
         val model = paramUploadImage?.let {
             return mediaUploadHelper.upload(it)

@@ -23,4 +23,17 @@ interface ContactRepository : CrudRepository<ContactEntity, Long>, JpaSpecificat
     @Query
     fun findByIdAndUserId(id: Long, userId: Long): Optional<ContactEntity>
 
+    @Query(
+            "SELECT * " +
+                    " FROM " + TABLE +
+                    " WHERE id = :contactId", nativeQuery = true
+    )
+    fun getContactInfo(contactId: Int): ContactEntity
+
+    @Query(
+            "UPDATE " + TABLE +
+            " SET invite_status = :inviteStatus" +
+            " WHERE id = :contactId", nativeQuery = true
+    )
+    fun updateInviteStatus(contactId: Long, inviteStatus: Int): Boolean
 }

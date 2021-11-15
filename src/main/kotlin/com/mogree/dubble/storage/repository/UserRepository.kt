@@ -40,4 +40,10 @@ interface UserRepository : CrudRepository<UserEntity, Long>, JpaSpecificationExe
     @Query
     fun existsByIdIsNotAndEmailIgnoreCase(userId: Long, email: String): Boolean
 
+    @Query(
+            "SELECT * " +
+                    " FROM " + TABLE +
+                    " WHERE id = :userId", nativeQuery = true
+    )
+    fun getCurrentUserInfo(userId: Long): UserEntity
 }
