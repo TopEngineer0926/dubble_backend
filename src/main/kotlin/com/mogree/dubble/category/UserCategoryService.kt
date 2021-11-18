@@ -11,8 +11,10 @@ import com.mogree.dubble.notification.AsyncNotificationHelper
 import com.mogree.dubble.storage.repository.MediaRepository
 import com.mogree.dubble.service.media.MediaService
 import com.mogree.dubble.storage.repository.UserRepository
+import com.mogree.spring.exception.APIBadRequestException
 import org.springframework.stereotype.Service
 import org.springframework.security.crypto.password.PasswordEncoder
+import com.mogree.dubble.service.account.helper.AccountHelper
 
 @Service
 class UserCategoryService(
@@ -21,7 +23,8 @@ class UserCategoryService(
         private val userRepository: UserRepository,
         private val mediaService: MediaService,
         private val passwordEncoder: PasswordEncoder,
-        private val notificationHelper: AsyncNotificationHelper
+        private val notificationHelper: AsyncNotificationHelper,
+        private val accountHelper: AccountHelper
 ) {
     fun getCategoryById(): String? =
             userCategoryRepository.getCategory(getCurrentUserId())
@@ -105,6 +108,17 @@ class UserCategoryService(
     }
 
     fun sendResetPasswordEmail(userId: Long) {
+
+        // get user or throw bad request error
+        val user = userRepository.findById(userId).map { user ->
+            accountHelper.setPasswordResetCode(user)
+            user
+        }.orElseThrow { APIBadRequestException(Config.ErrorMessagesGerman.USER_EXISTENCE) }
+
+        accountHelper.setPasswordResetCode(user) // set reset password code
+
+        userRepository.save(user) // update user in the DB
+
         return notificationHelper.sendResetPasswordEmail(userId)
     }
 }

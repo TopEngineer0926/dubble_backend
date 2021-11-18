@@ -3,6 +3,7 @@ package com.mogree.dubble.category
 import com.mogree.dubble.category.payload.CategoryResponse
 import com.mogree.dubble.category.payload.CategoryUpdateRequest
 import com.mogree.dubble.category.payload.MasterResponse
+import com.mogree.dubble.config.Config
 import com.mogree.dubble.entity.db.MediaEntity
 import com.mogree.dubble.entity.db.UserEntity
 import com.mogree.server.gen.model.MediaModel
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import com.mogree.spring.exception.APIBadRequestException
 
 
 @RestController
@@ -131,34 +133,43 @@ class UserCategoryController (
         val currentUserInfo = userCategoryService.getCurrentUserInfo()
 
         // create a new user by referring contact information and current user information
-        val newUser = userCategoryService.createNewInviteUser(
-                contactInfo.email,
-                contactInfo.firstName,
-                contactInfo.lastName,
-                1,
-                currentUserInfo?.companyName,
-                currentUserInfo?.mainColor,
-                currentUserInfo?.secondaryColor,
-                currentUserInfo?.logoPosition,
-                currentUserInfo.id)
+        var newUser = UserEntity()
+        try {
+            newUser = userCategoryService.createNewInviteUser(
+                    contactInfo.email,
+                    contactInfo.firstName,
+                    contactInfo.lastName,
+                    1,
+                    currentUserInfo?.companyName,
+                    currentUserInfo?.mainColor,
+                    currentUserInfo?.secondaryColor,
+                    currentUserInfo?.logoPosition,
+                    currentUserInfo.id)
+        } catch (e: Exception){
+            throw APIBadRequestException(Config.ErrorMessagesGerman.INVITE_USER_EMAIL_EXISTS)
+        }
 
         // contact db update invite_status field
         contactInfo.inviteStatus = 1
         userCategoryService.updateContactInviteField(contactInfo)
 
-        // copy logo information
-        // 1. get master logo file name (current user logo file name)
-        val masterLogoFileName = userCategoryService.getMasterLogo(currentUserInfo.id)
+        var responseMessage = "Invite Sent"
 
-        // 2. copy logo into new user logo
-        if (masterLogoFileName != "" && masterLogoFileName != null) {
-            userCategoryService.copyMasterLogoNew(masterLogoFileName, newUser.id)
+        try {
+            // copy logo information
+            // 1. get master logo file name (current user logo file name)
+            val masterLogoFileName = userCategoryService.getMasterLogo(currentUserInfo.id)
+            // 2. copy logo into new user logo
+            if (masterLogoFileName != "" && masterLogoFileName != null) {
+                userCategoryService.copyMasterLogoNew(masterLogoFileName, newUser.id)
+            }
+        } catch(e: Exception) {
+            responseMessage = "No Logo"
         }
 
-        // after that sent an invite email
+        // send an invitation email for resetting password
         userCategoryService.sendResetPasswordEmail(newUser.id)
-
-        val response = CategoryResponse("Invite Sent")
+        val response = CategoryResponse(responseMessage)
         return ResponseEntity.ok<CategoryResponse>(response)
     }
 }

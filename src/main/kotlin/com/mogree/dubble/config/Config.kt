@@ -180,6 +180,7 @@ class Config {
         const val PRODUCT_NOT_PUBLISHED = "Das Produkt wurde noch nicht veröffentlicht!"
         const val SECTION_HEADING_NOT_NULL_EMPTY = "Bitte fügen Sie Abschnittsüberschriften (z.B.: Feedback unserer Kunden oder Zusätzliche Informationen) hinzu."
         const val HEADING_NOT_NULL_EMPTY = "Bitte fügen Sie Überschriften (z.B.: Feedback unserer Kunden oder Zusätzliche Informationen) hinzu."
+        const val INVITE_USER_EMAIL_EXISTS = "Der Mitarbeiter hat bereits ein eigenes Konto"
         fun CONTACT_EXISTENCE(contactId: String) = "Kontakt mit der ID `$contactId` existiert nicht!"
         fun USER_EMAIL_EXISTS(email: String) = "Ein Benutzer mit der E-Mail '$email' existiert bereits"
         fun GENDER_NOT_SUPPORTED(gender:String) = "Geschlecht '$gender' wird nicht unterstützt"
