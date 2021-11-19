@@ -13,6 +13,7 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
         const val TABLE = Config.Database.TABLE_PRODUCT
         const val USER_ID = "user_id"
         const val TEMPLATE_FIELD = "template"
+        const val DATE_COLUMN = "created_at"
     }
 
     @Query(
@@ -20,6 +21,7 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
                     "FROM " + TABLE +
                     " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND " + USER_ID + " = :userId" +
+                    " ORDER BY " + DATE_COLUMN + " DESC" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
     fun getTemplate(offset: Int?, limit: Int?, userId: Long): List<ProductEntity>
@@ -29,6 +31,7 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
                     "FROM " + TABLE +
                     " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND (" + USER_ID + " = :userId" + " OR " + USER_ID + " = :masterId)" +
+                    " ORDER BY " + DATE_COLUMN + " DESC" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
     fun getTemplateWithMaster(offset: Int?, limit: Int?, userId: Long, masterId: Long): List<ProductEntity>
@@ -47,6 +50,7 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
                     " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND " + TEMPLATE_FIELD + " LIKE %:filter%" +
                     " AND " + USER_ID + " = :userId" +
+                    " ORDER BY " + DATE_COLUMN + " DESC" +
                     " LIMIT :offset , :limit", nativeQuery = true
     )
     fun getTemplateByFilter(offset: Int?, limit: Int?, filter: String, userId: Long): List<ProductEntity>
