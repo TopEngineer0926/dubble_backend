@@ -51,8 +51,10 @@ class ProductHelper @Autowired constructor(
         if (contactModel != null) {
 
             return if (!contactModel.itemid.isNullOrBlank()) {
-                this.contactRepo.findByIdAndUserId(contactModel.itemid.toLong(), getCurrentUserId())
-                    .orElseThrow { APIBadRequestException(Config.ResponseMessage.notFound(Config.EntityName.CONTACT)) }
+//                this.contactRepo.findByIdAndUserId(contactModel.itemid.toLong(), getCurrentUserId())
+//                    .orElseThrow { APIBadRequestException(Config.ResponseMessage.notFound(Config.EntityName.CONTACT)) }
+                this.contactRepo.getContactInfo(contactModel.itemid.toInt())
+//                        .orElseThrow { APIBadRequestException(Config.ResponseMessage.notFound(Config.EntityName.CONTACT)) }
             } else {
                 contactService.createContact(contactModel)
             }
@@ -65,8 +67,9 @@ class ProductHelper @Autowired constructor(
         if (customerModel != null) {
 
             return if (!customerModel.itemid.isNullOrBlank()) {
-                this.customerRepo.findByIdAndUserId(customerModel.itemid.toLong(), getCurrentUserId())
-                    .orElseThrow { APIBadRequestException(Config.ResponseMessage.notFound(Config.EntityName.CUSTOMER)) }
+//                this.customerRepo.findByIdAndUserId(customerModel.itemid.toLong(), getCurrentUserId())
+//                        .orElseThrow { APIBadRequestException(Config.ResponseMessage.notFound(Config.EntityName.CUSTOMER)) }
+                this.customerRepo.getCustomerInfo(customerModel.itemid.toLong())
             } else {
                 customerService.createCustomer(customerModel)
             }

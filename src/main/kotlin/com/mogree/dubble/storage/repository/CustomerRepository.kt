@@ -23,4 +23,11 @@ interface CustomerRepository : CrudRepository<CustomerEntity, Long>, JpaSpecific
     @Query
     fun findByIdAndUserId(id: Long, userId: Long): Optional<CustomerEntity>
 
+    @Query(
+            "SELECT * " +
+                    " FROM " + TABLE +
+                    " WHERE id=:id", nativeQuery = true
+    )
+    fun getCustomerInfo(id: Long): CustomerEntity
+
 }
