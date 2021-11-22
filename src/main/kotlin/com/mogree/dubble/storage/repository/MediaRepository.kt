@@ -23,10 +23,10 @@ interface MediaRepository : CrudRepository<MediaEntity, Int> {
     @Query(
         "SELECT * " +
                 "FROM " + TABLE +
-                " WHERE foreign_table = :foreignTable AND foreign_id = :foreignId AND user_id = :userid",
+                " WHERE foreign_table = :foreignTable AND foreign_id = :foreignId AND user_id = :userId",
         nativeQuery = true
     )
-    fun findAllFromForeignTable(foreignTable: String?, foreignId: Int?, userid: Long): List<MediaEntity>
+    fun findAllFromForeignTable(foreignTable: String?, foreignId: Int?, userId: Long): List<MediaEntity>
 
     @Query(
         "SELECT * " +

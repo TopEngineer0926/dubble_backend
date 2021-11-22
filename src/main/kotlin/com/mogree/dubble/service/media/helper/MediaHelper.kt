@@ -25,7 +25,7 @@ class MediaHelper(
     private lateinit var viemeoUrl: String
 
     fun getMediaList(foreignTable: String?, foreignId: Int?, userId: Long): List<MediaModel> {
-        val list = mediaRepository.findAllFromForeignTable(foreignTable, foreignId, userId)
+        val list = mediaRepository.findAllFromForeignTable(foreignTable, foreignId)
         return list.toModels(webDomain,viemeoUrl)
     }
 
