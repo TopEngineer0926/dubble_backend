@@ -149,7 +149,9 @@ class ReportController(
             model.category(structuredCategory)
             customerService.createCustomer(model)
 
-            insertNewCategory(datas.get(i).getString("category"))
+            if (datas.get(i).getString("category") != "") {
+                insertNewCategory(datas.get(i).getString("category"))
+            }
         }
     }
 
@@ -172,12 +174,22 @@ class ReportController(
     ) {
         var userCategoryList = userCategoryRepository.getCategory(getCurrentUserId())
         val newCategoryList = category.split("|")
-        for (i in 0 until newCategoryList.size) {
-            if (newCategoryList.isNotEmpty() && !userCategoryList!!.contains(newCategoryList[i])) {
-                if (!userCategoryList.isNotEmpty())
-                    userCategoryList = "|"
-                val temp = userCategoryList + newCategoryList[i] + "|"
-                userCategoryRepository.updateCategory(temp, getCurrentUserId())
+
+        if (userCategoryList != null) {
+            for (i in 0 until newCategoryList.size) {
+                if (newCategoryList.isNotEmpty() && !userCategoryList!!.contains(newCategoryList[i])) {
+                    if (!userCategoryList.isNotEmpty())
+                        userCategoryList = "|"
+                    val temp = userCategoryList + newCategoryList[i] + "|"
+                    userCategoryRepository.updateCategory(temp, getCurrentUserId())
+                }
+            }
+        } else {
+            for (i in 0 until newCategoryList.size) {
+                if (newCategoryList.isNotEmpty()) {
+                    val temp = "|" + newCategoryList[i] + "|"
+                    userCategoryRepository.updateCategory(temp, getCurrentUserId())
+                }
             }
         }
     }
