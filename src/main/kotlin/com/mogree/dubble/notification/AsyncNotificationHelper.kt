@@ -26,6 +26,11 @@ class AsyncNotificationHelper @Autowired(required = false) constructor(
     }
 
     @Async
+    fun sendInviteEmail(userId: Long) {
+        accountNotificationHelper.sendInviteEmail(userId)
+    }
+
+    @Async
     fun sendProductPublishedEmail(productId: Long, userId: Long) {
         productNotificationHelper.sendProductPublishedEmail(productId, userId)
     }

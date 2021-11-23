@@ -107,7 +107,7 @@ class UserCategoryService(
         return userRepository.save(entity)
     }
 
-    fun sendResetPasswordEmail(userId: Long) {
+    fun sendInviteEmail(userId: Long) {
 
         // get user or throw bad request error
         val user = userRepository.findById(userId).map { user ->
@@ -119,6 +119,6 @@ class UserCategoryService(
 
         userRepository.save(user) // update user in the DB
 
-        return notificationHelper.sendResetPasswordEmail(userId)
+        return notificationHelper.sendInviteEmail(userId)
     }
 }

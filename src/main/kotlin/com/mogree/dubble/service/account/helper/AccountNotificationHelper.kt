@@ -70,6 +70,30 @@ class AccountNotificationHelper @Autowired constructor(
         LOGGER.info { "Sent email with reset password link to `${user.email}`" } // log into info level
     }
 
+    @Transactional(readOnly = true)
+    fun sendInviteEmail(userId: Long) {
+        val user = userRepo.findById(userId)
+                .orElseThrow { APIItemNotFoundException(Config.ErrorMessagesGerman.NO_USER_FOR_ID(userId.toString())) }
+
+        val context = Context() // create email context
+        context.setVariable(
+                Config.Mail.Variable.RESET_PASSWORD_LINK,
+                generateResetPasswordLink(user)
+        ) // set variable `resetPasswordLink`
+        context.setVariable("user", user) //set user to use firstname and lastname
+        context.setVariable(Config.Template.WEB_DOMAIN, webDomain)
+        context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
+
+        val content: String = templateEngine.process(Config.Mail.Template.INVITE_USER, context) // create email content
+
+        mailSender.sendEmailWithHtmlContent(
+                Config.Mail.Subject.INVITE_USER,
+                content,
+                listOf(user.email)
+        ) // send email
+        LOGGER.info { "Sent email with reset password link to `${user.email}`" } // log into info level
+    }
+
     /* ***** Private Methods ***** */
 
     private fun generateActivationLink(user: UserEntity): String {

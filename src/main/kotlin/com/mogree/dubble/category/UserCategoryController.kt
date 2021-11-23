@@ -168,7 +168,7 @@ class UserCategoryController (
         }
 
         // send an invitation email for resetting password
-        userCategoryService.sendResetPasswordEmail(newUser.id)
+        userCategoryService.sendInviteEmail(newUser.id)
         val response = CategoryResponse(responseMessage)
         return ResponseEntity.ok<CategoryResponse>(response)
     }

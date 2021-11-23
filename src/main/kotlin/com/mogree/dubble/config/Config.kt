@@ -75,6 +75,7 @@ class Config {
         object Template {
             const val ACTIVATION = "mail/account/activation"
             const val RESET_PASSWORD = "mail/account/reset-password"
+            const val INVITE_USER = "mail/account/invite-user"
             const val PRODUCT_PUBLISHED = "mail/product/product-published"
         }
 
@@ -94,6 +95,7 @@ class Config {
         object Subject {
             const val ACTIVATION = "Aktivierung des Accounts"
             const val RESET_PASSWORD = "Passwort vergessen"
+            const val INVITE_USER = "Aktivieren Sie Ihren Dubble Account"
             const val PRODUCT_PUBLISHED = "Neuigkeiten von"
         }
 
