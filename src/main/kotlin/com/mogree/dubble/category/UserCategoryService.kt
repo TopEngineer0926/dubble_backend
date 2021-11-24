@@ -22,6 +22,7 @@ class UserCategoryService(
         private val contactRepository: ContactRepository,
         private val userRepository: UserRepository,
         private val mediaService: MediaService,
+        private val mediaRepository: MediaRepository,
         private val passwordEncoder: PasswordEncoder,
         private val notificationHelper: AsyncNotificationHelper,
         private val accountHelper: AccountHelper
@@ -80,6 +81,10 @@ class UserCategoryService(
         return contactRepository.save(contactInfo)
     }
 
+    fun getContactMedia(contactId: Int): MediaEntity? {
+        return mediaRepository.getContactMedia(contactId, getCurrentUserId())
+    }
+
     fun createNewInviteUser(email: String,
                             first_name: String,
                             last_name: String,
@@ -105,6 +110,28 @@ class UserCategoryService(
         entity.activated = true
 
         return userRepository.save(entity)
+    }
+
+    fun createNewContact(contactInfo: ContactEntity, newUser: UserEntity): ContactEntity {
+        val entity = ContactEntity()
+        entity.email = contactInfo.email
+        entity.firstName = contactInfo.firstName
+        entity.lastName = contactInfo.lastName
+        entity.abbreviation = contactInfo.abbreviation
+        entity.phoneNumber = contactInfo.phoneNumber
+        entity.user = newUser
+        return contactRepository.save(entity)
+    }
+
+    fun copyIntoNewContactMedia(mediaInfo: MediaEntity, newUser: UserEntity, newContact: ContactEntity): MediaEntity {
+        val entity = MediaEntity()
+        entity.fileName = mediaInfo.fileName
+        entity.path = mediaInfo.path
+        entity.mediaType = mediaInfo.mediaType
+        entity.foreignId = newContact.id.toInt()
+        entity.foreignTable = mediaInfo.foreignTable
+        entity.userid = newUser.id
+        return mediaRepository.save(entity)
     }
 
     fun sendInviteEmail(userId: Long) {

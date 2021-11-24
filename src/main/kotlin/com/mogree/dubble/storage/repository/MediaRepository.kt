@@ -35,4 +35,12 @@ interface MediaRepository : CrudRepository<MediaEntity, Int> {
         nativeQuery = true
     )
     fun findByFileName(fileName:String):MediaEntity
+
+    @Query(
+            "SELECT * " +
+                    "FROM " + TABLE +
+                    " WHERE foreign_id=:contactId and foreign_table='contact' and user_id=:userId",
+            nativeQuery = true
+    )
+    fun getContactMedia(contactId:Int, userId: Long):MediaEntity?
 }

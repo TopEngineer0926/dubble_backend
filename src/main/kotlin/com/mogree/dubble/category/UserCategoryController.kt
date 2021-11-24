@@ -4,6 +4,7 @@ import com.mogree.dubble.category.payload.CategoryResponse
 import com.mogree.dubble.category.payload.CategoryUpdateRequest
 import com.mogree.dubble.category.payload.MasterResponse
 import com.mogree.dubble.config.Config
+import com.mogree.dubble.entity.db.ContactEntity
 import com.mogree.dubble.entity.db.MediaEntity
 import com.mogree.dubble.entity.db.UserEntity
 import com.mogree.server.gen.model.MediaModel
@@ -147,6 +148,13 @@ class UserCategoryController (
                     currentUserInfo.id)
         } catch (e: Exception){
             throw APIBadRequestException(Config.ErrorMessagesGerman.INVITE_USER_EMAIL_EXISTS)
+        }
+
+        // copy one contact including meida(photo) information
+        val newContact = userCategoryService.createNewContact(contactInfo, newUser)
+        val contactMediaInfo = userCategoryService.getContactMedia(contactInfo.id.toInt()) // employee photo
+        if(contactMediaInfo != null) {
+            userCategoryService.copyIntoNewContactMedia(contactMediaInfo, newUser, newContact)
         }
 
         // contact db update invite_status field
