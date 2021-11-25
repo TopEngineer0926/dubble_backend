@@ -25,14 +25,17 @@ class MediaDeleteHelper(
         if (entityOpt.isPresent) {
             val entity = entityOpt.get()
 
-            if (getCurrentUserId() != entity.userid) {
-                throw APIForbiddenException(Config.ErrorMessagesGerman.INVALID_ACCESS);
-            }
+//            if (getCurrentUserId() != entity.userid) {
+//                throw APIForbiddenException(Config.ErrorMessagesGerman.INVALID_ACCESS);
+//            }
 
             val file = File(entity.path)
             mediaRepository.delete(entity)
-            if (entity.mediaType != MediaConfig.MediaType.MEDIATYPE_VIDEO && !file.delete()) {
-                throw APIItemNotFoundException(Config.ErrorMessagesGerman.ITEM_EXISTENCE)
+
+            if (entity.userid == getCurrentUserId()) {
+                if (entity.mediaType != MediaConfig.MediaType.MEDIATYPE_VIDEO && !file.delete()) {
+                    throw APIItemNotFoundException(Config.ErrorMessagesGerman.ITEM_EXISTENCE)
+                }
             }
 
         } else {

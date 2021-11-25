@@ -65,14 +65,15 @@ abstract class BaseComponentMedia : MediaComponent {
         try {
             val path = getPath() + "/" + newFileName
 
-            val mediaFile = File(path)
-            if (!mediaFile.createNewFile()) {
-                throw APIInternalServerException(Config.ErrorMessagesGerman.CREATE_FILE(newFileName))
-            }
+//            val mediaFile = File(path)
+//            if (!mediaFile.createNewFile()) {
+//                throw APIInternalServerException(Config.ErrorMessagesGerman.CREATE_FILE(newFileName))
+//            }
+//
+//            Files.copy(Paths.get(filePath), Paths.get(path), StandardCopyOption.REPLACE_EXISTING)
 
-            Files.copy(Paths.get(filePath), Paths.get(path), StandardCopyOption.REPLACE_EXISTING)
-
-            return MediaData(newFileName, path, getMediaType())
+//            return MediaData(newFileName, path, getMediaType())
+            return MediaData(fileName, filePath, getMediaType())
         } catch (e: IOException) {
             throw APIInternalServerException(Config.ErrorMessagesGerman.WRITE_FILE(newFileName))
         }
