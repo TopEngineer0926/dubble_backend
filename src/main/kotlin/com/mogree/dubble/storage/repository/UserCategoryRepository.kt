@@ -95,7 +95,7 @@ interface UserCategoryRepository : CrudRepository<UserEntity, Int> {
     @Query(
             "SELECT file_name " +
                     " FROM media " +
-                    " WHERE user_id = :currentUserId and media_type=1 and foreign_table like 'account'", nativeQuery = true
+                    " WHERE user_id = :currentUserId and media_type=1 and foreign_table like 'account' and foreign_id=:currentUserId", nativeQuery = true
     )
     fun getMasterLogo(currentUserId: Long?): String?
 }
