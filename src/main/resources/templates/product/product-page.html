@@ -309,6 +309,7 @@
 <header>
     <img th:class="'logo-position-'+ ${user.logoPosition != null ? user.logoPosition : 'left'}"
          th:if="${companyImage != null && companyImage.url != null}" th:src="${companyImage.url}"
+         style="max-width:100%;"
          alt="Company logo">
 </header>
 
