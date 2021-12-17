@@ -54,6 +54,12 @@ class ProductEntity : EntityAudition() {
     @Column(name = "template", nullable = true)
     var template: String? = null
 
+    @Column(name = "mail_headline", nullable = true)
+    var mailHeadline: String? = null
+
+    @Column(name = "mail_textline", nullable = true)
+    var mailTextline: String? = null
+
     /* ***** Relations ***** */
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

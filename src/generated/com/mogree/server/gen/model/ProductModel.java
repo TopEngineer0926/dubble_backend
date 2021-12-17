@@ -55,6 +55,8 @@ public class ProductModel   {
   private OffsetDateTime createdAt = null;
   private String internalPageTitle = null;
   private String videoSectionHeadline = null;
+  private String mailHeadline = null;
+  private String mailTextline = null;
 
   /**
    * Id of the contact
@@ -367,6 +369,40 @@ public class ProductModel   {
     this.template = template;
   }
 
+  /**
+   **/
+  public ProductModel mailHeadline(String mailHeadline) {
+    this.mailHeadline = mailHeadline;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "Mail Headline", value = "")
+  @JsonProperty("mail_headline")
+  public String getMailHeadline() {
+    return mailHeadline;
+  }
+  public void setMailHeadline(String mailHeadline) {
+    this.mailHeadline = mailHeadline;
+  }
+
+  /**
+   **/
+  public ProductModel mailTextline(String mailTextline) {
+    this.mailTextline = mailTextline;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "Mail Textline", value = "")
+  @JsonProperty("mail_textline")
+  public String getMailTextline() {
+    return mailTextline;
+  }
+  public void setMailTextline(String mailTextline) {
+    this.mailTextline = mailTextline;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -393,12 +429,14 @@ public class ProductModel   {
         Objects.equals(createdAt, productModel.createdAt) &&
         Objects.equals(internalPageTitle, productModel.internalPageTitle) &&
         Objects.equals(template, productModel.template) &&
+        Objects.equals(mailHeadline, productModel.mailHeadline) &&
+        Objects.equals(mailTextline, productModel.mailTextline) &&
         Objects.equals(videoSectionHeadline, productModel.videoSectionHeadline);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(itemid, type, headline, greeting, customText, publicationStatus, reviewSectionName, pressInfoSectionName, shareCode, reviews, pressInfos, userId, contact, customer, createdAt, internalPageTitle, videoSectionHeadline, template);
+    return Objects.hash(itemid, type, headline, greeting, customText, publicationStatus, reviewSectionName, pressInfoSectionName, shareCode, reviews, pressInfos, userId, contact, customer, createdAt, internalPageTitle, videoSectionHeadline, template, mailHeadline, mailTextline);
   }
 
   @Override
@@ -424,6 +462,8 @@ public class ProductModel   {
     sb.append("    internalPageTitle: ").append(toIndentedString(internalPageTitle)).append("\n");
     sb.append("    videoSectionHeadline: ").append(toIndentedString(videoSectionHeadline)).append("\n");
     sb.append("    template: ").append(toIndentedString(template)).append("\n");
+    sb.append("    mailHeadline: ").append(toIndentedString(mailHeadline)).append("\n");
+    sb.append("    mailTextline: ").append(toIndentedString(mailTextline)).append("\n");
     sb.append("}");
     return sb.toString();
   }

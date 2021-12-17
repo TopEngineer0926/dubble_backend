@@ -22,6 +22,8 @@ fun ProductModel.createEntity(user: UserEntity, contact: ContactEntity, customer
     entity.internalPageTitle = this.internalPageTitle
     entity.videoSectionHeadline = this.videoSectionHeadline
     entity.template = this.template
+    entity.mailHeadline = this.mailHeadline
+    entity.mailTextline = this.mailTextline
 
     entity.user = user // set user relation
     entity.contact = contact // set contact relation
@@ -48,6 +50,8 @@ fun ProductModel.toEntity(entity: ProductEntity, contact: ContactEntity, custome
     entity.internalPageTitle = this.internalPageTitle
     entity.videoSectionHeadline = this.videoSectionHeadline
     entity.template = this.template
+    entity.mailHeadline = this.mailHeadline
+    entity.mailTextline = this.mailTextline
 
     entity.contact = contact // set contact relation
     entity.customer = customer // set customer relation
@@ -73,6 +77,8 @@ fun ProductEntity.toModel(): ProductModel {
     model.internalPageTitle = this.internalPageTitle
     model.videoSectionHeadline = this.videoSectionHeadline
     model.template = this.template
+    model.mailHeadline = this.mailHeadline
+    model.mailTextline = this.mailTextline
 
     model.userId = this.user.id // set user relation
     model.contact = this.contact.toModel() // set contact relation
