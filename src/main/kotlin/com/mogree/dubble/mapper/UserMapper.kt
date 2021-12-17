@@ -31,6 +31,8 @@ fun UserEntity.toModel(): UserModel {
     model.secondaryColor = this.secondaryColor
     model.logoPosition = this.logoPosition?.let { UserModel.LogoPositionEnum.valueOf(it.name.toUpperCase()) }
     model.contactButtonColor = this.contactButtonColor
+    model.mailHeadline = this.mailHeadline
+    model.mailTextline = this.mailTextline
     return model
 }
 
@@ -51,6 +53,8 @@ fun UserModel.toEntity(entity: UserEntity) {
     entity.mainColor = this.mainColor
     entity.secondaryColor = this.secondaryColor
     entity.contactButtonColor = this.contactButtonColor
+    entity.mailHeadline = this.mailHeadline
+    entity.mailTextline = this.mailTextline
 
     if(this.logoPosition!=null){
         entity.logoPosition = Config.LogoPosition.valueOf(this.logoPosition.name.toLowerCase())

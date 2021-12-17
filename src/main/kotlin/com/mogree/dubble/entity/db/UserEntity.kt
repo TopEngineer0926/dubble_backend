@@ -74,4 +74,11 @@ class UserEntity : EntityAudition() {
 
     @Column(name = "master_id", nullable = true)
     var masterId: Long? = null
+
+    @Column(name = "mail_headline", nullable = true)
+    var mailHeadline: String? = null
+
+    @Column(name = "mail_textline", nullable = true)
+    var mailTextline: String? = null
+
 }

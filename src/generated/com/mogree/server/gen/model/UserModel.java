@@ -18,6 +18,8 @@ public class UserModel   {
   private String itemid = null;
   private String lastname = null;
   private String companyName = null;
+  private String mailHeadline = null;
+  private String mailTextline = null;
   private String mainColor = null;
   private String secondaryColor = null;
   private String contactButtonColor = null;
@@ -131,6 +133,40 @@ public class UserModel   {
 
   /**
    **/
+  public UserModel mailHeadline(String mailHeadline) {
+    this.mailHeadline = mailHeadline;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "Mail Headline", value = "")
+  @JsonProperty("mail_headline")
+  public String getMailHeadline() {
+    return mailHeadline;
+  }
+  public void setMailHeadline(String mailHeadline) {
+    this.mailHeadline = mailHeadline;
+  }
+
+  /**
+   **/
+  public UserModel mailTextline(String mailTextline) {
+    this.mailTextline = mailTextline;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "Mail Textline", value = "")
+  @JsonProperty("mail_textline")
+  public String getMailTextline() {
+    return mailTextline;
+  }
+  public void setMailTextline(String mailTextline) {
+    this.mailTextline = mailTextline;
+  }
+
+  /**
+   **/
   public UserModel mainColor(String mainColor) {
     this.mainColor = mainColor;
     return this;
@@ -230,6 +266,8 @@ public class UserModel   {
         Objects.equals(itemid, userModel.itemid) &&
         Objects.equals(lastname, userModel.lastname) &&
         Objects.equals(companyName, userModel.companyName) &&
+        Objects.equals(mailHeadline, userModel.mailHeadline) &&
+        Objects.equals(mailTextline, userModel.mailTextline) &&
         Objects.equals(mainColor, userModel.mainColor) &&
         Objects.equals(secondaryColor, userModel.secondaryColor) &&
         Objects.equals(contactButtonColor, userModel.contactButtonColor) &&
@@ -239,7 +277,7 @@ public class UserModel   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, firstname, itemid, lastname, companyName, mainColor, secondaryColor, contactButtonColor, logoPosition, type);
+    return Objects.hash(email, firstname, itemid, lastname, companyName, mainColor, secondaryColor, contactButtonColor, logoPosition, type, mailHeadline, mailTextline);
   }
 
   @Override
@@ -252,6 +290,8 @@ public class UserModel   {
     sb.append("    itemid: ").append(toIndentedString(itemid)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
+    sb.append("    mailHeadline: ").append(toIndentedString(mailHeadline)).append("\n");
+    sb.append("    mailTextline: ").append(toIndentedString(mailTextline)).append("\n");
     sb.append("    mainColor: ").append(toIndentedString(mainColor)).append("\n");
     sb.append("    secondaryColor: ").append(toIndentedString(secondaryColor)).append("\n");
     sb.append("    contactButtonColor: ").append(toIndentedString(contactButtonColor)).append("\n");

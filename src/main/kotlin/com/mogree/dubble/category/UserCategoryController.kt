@@ -142,6 +142,8 @@ class UserCategoryController (
                     contactInfo.lastName,
                     1,
                     currentUserInfo?.companyName,
+                    currentUserInfo?.mailHeadline,
+                    currentUserInfo?.mailTextline,
                     currentUserInfo?.mainColor,
                     currentUserInfo?.secondaryColor,
                     currentUserInfo?.logoPosition,

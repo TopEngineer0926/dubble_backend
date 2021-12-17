@@ -90,6 +90,8 @@ class UserCategoryService(
                             last_name: String,
                             is_activated: Int,
                             company_name: String?,
+                            mailHeadline: String?,
+                            mailTextline: String?,
                             main_color: String?,
                             secondary_color: String?,
                             logo_position: Config.LogoPosition?,
@@ -103,6 +105,8 @@ class UserCategoryService(
         entity.password = passwordEncoder.encode(tempPassword)
         entity.role = Config.Roles.USER // User can not register with different role so it must be set here statically
         entity.companyName = company_name
+        entity.mailHeadline = mailHeadline
+        entity.mailTextline = mailTextline
         entity.mainColor = main_color
         entity.logoPosition = logo_position
         entity.secondaryColor = secondary_color
