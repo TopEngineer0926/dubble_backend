@@ -14,6 +14,7 @@ import com.mogree.dubble.service.media.helper.MediaHelper
 import com.mogree.dubble.storage.repository.ProductRepository
 import com.mogree.dubble.storage.repository.UserRepository
 import com.mogree.dubble.util.extension.asJsonString
+import com.mogree.dubble.util.media.config.MediaConfig
 import com.mogree.spring.exception.APIItemNotFoundException
 import org.quartz.*
 import org.quartz.impl.StdSchedulerFactory
@@ -113,6 +114,11 @@ class JobSchedulerController (
         val product = this.getProductOrThrow(scheduleEmailRequest.productId!!.toLong(), getCurrentUserId())
         val user = userRepo.findByIdOrNull(getCurrentUserId())
         val media = mediaHelper.getMediaList(Config.Database.TABLE_CONTACT, product.contact.id.toInt(), getCurrentUserId())
+        val imgCompanyLogo = mediaHelper.getMediaList(Config.MediaModule.ACCOUNT.toLowerCase(), product.user.id.toInt(), getCurrentUserId())
+        val imgProduct = mediaHelper.getMediaList(Config.Database.TABLE_PRODUCT, product.id.toInt(), getCurrentUserId())
+
+        val def_mail_headline = "Ihre persönliche Informationsseite"
+        val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val context = Context() // create email context
         context.setVariable(
@@ -122,9 +128,20 @@ class JobSchedulerController (
         context.setVariable("contact", product.contact)
         context.setVariable("customer", scheduleEmailRequest.customer)
         context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
+        context.setVariable("mailHeadline", if (product.mailHeadline!= null) product.mailHeadline else def_mail_headline)
+        context.setVariable("mailTextline", if (product.mailTextline!= null) product.mailTextline else def_mail_textline)
+        context.setVariable("imgPlayBtn", "$webDomain/img/play_button.png")
 
         if (media.isNotEmpty()) {
             context.setVariable("media", media.first())
+        }
+
+        if (imgCompanyLogo.isNotEmpty()) {
+            context.setVariable("imgCompanyLogo", imgCompanyLogo.filter { it.mediaType == MediaConfig.MediaType.MEDIATYPE_IMAGE }.first())
+        }
+
+        if (imgProduct.isNotEmpty()) {
+            context.setVariable("imgProduct", imgProduct.filter { it.mediaType == MediaConfig.MediaType.MEDIATYPE_IMAGE }.first())
         }
 
         val content: String =
