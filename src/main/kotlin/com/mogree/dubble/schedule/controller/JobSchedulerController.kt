@@ -186,9 +186,10 @@ class JobSchedulerController (
         if (!scheduleSmsRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
             greeting += " " + scheduleSmsRequest.customer?.academicDegreeSubsequent
         }
+        val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
-        val contentText = Config.Sms.PRODUCT_PUBLISHED_TEXT + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+        val contentText = if (product.mailTextline!= null) product.mailTextline else def_mail_textline  + "\n"+ product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
         jobDataMap.put("phoneNumber", scheduleSmsRequest.customer!!.phoneNumber!!)
         jobDataMap.put("content", headerText + contentText)
@@ -254,9 +255,10 @@ class JobSchedulerController (
         if (!sendByCategoryRequest.customer?.academicDegreePreceding.isNullOrEmpty()) {
             greeting += " " + sendByCategoryRequest.customer?.academicDegreeSubsequent
         }
+        val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
-        val contentText = Config.Sms.PRODUCT_PUBLISHED_TEXT + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+        val contentText = if (product.mailTextline!= null) product.mailTextline else def_mail_textline  + "\n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
         sendSMS(sendByCategoryRequest.customer!!.phoneNumber!!, headerText + contentText)
         val response = SendByCategoryResponse(true, "Sent Successfully!")
@@ -301,6 +303,11 @@ class JobSchedulerController (
         val product = this.getProductOrThrow(sendByCategoryRequest.productId!!.toLong(), getCurrentUserId())
         val user = userRepo.findByIdOrNull(getCurrentUserId())
         val media = mediaHelper.getMediaList(Config.Database.TABLE_CONTACT, product.contact.id.toInt(), getCurrentUserId())
+        val imgCompanyLogo = mediaHelper.getMediaList(Config.MediaModule.ACCOUNT.toLowerCase(), product.user.id.toInt(), getCurrentUserId())
+        val imgProduct = mediaHelper.getMediaList(Config.Database.TABLE_PRODUCT, product.id.toInt(), getCurrentUserId())
+
+        val def_mail_headline = "Ihre persönliche Informationsseite"
+        val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val context = Context() // create email context
         context.setVariable(
@@ -310,9 +317,20 @@ class JobSchedulerController (
         context.setVariable("contact", product.contact)
         context.setVariable("customer", sendByCategoryRequest.customer)
         context.setVariable(Config.Mail.Variable.COMPANY_NAME, if (user?.companyName != null) user.companyName else "Dubble GmbH")
+        context.setVariable("mailHeadline", if (product.mailHeadline!= null) product.mailHeadline else def_mail_headline)
+        context.setVariable("mailTextline", if (product.mailTextline!= null) product.mailTextline else def_mail_textline)
+        context.setVariable("imgPlayBtn", "$webDomain/img/play_button.png")
 
         if (media.isNotEmpty()) {
             context.setVariable("media", media.first())
+        }
+
+        if (imgCompanyLogo.isNotEmpty()) {
+            context.setVariable("imgCompanyLogo", imgCompanyLogo.filter { it.mediaType == MediaConfig.MediaType.MEDIATYPE_IMAGE }.first())
+        }
+
+        if (imgProduct.isNotEmpty()) {
+            context.setVariable("imgProduct", imgProduct.filter { it.mediaType == MediaConfig.MediaType.MEDIATYPE_IMAGE }.first())
         }
 
         val content: String =
