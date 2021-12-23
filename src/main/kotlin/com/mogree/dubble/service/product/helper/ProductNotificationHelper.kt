@@ -67,13 +67,14 @@ class ProductNotificationHelper @Autowired constructor(
 
         val content: String =
                 templateEngine.process(Config.Mail.Template.PRODUCT_PUBLISHED, context) // create email content
-
+        Config.LOGGER.info { "===== content: " + content }
         val subject = Config.Mail.Subject.PRODUCT_PUBLISHED + " " + user?.companyName
 
         val senderName = product.contact.firstName + " " + product.contact.lastName + " - " + user?.companyName
         mailSender.sendEmailWithHtmlContentInProduct(
                 subject, content, listOf(product.customer!!.email!!), product.contact!!.email!!, senderName
         ) // send email
+
         Config.LOGGER.info { "Sent email about published product to `${product.customer!!.email}`" } // log into info level
     }
 
@@ -91,7 +92,7 @@ class ProductNotificationHelper @Autowired constructor(
         val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
-        val contentText = if (product.mailTextline!= null) product.mailTextline else def_mail_textline  + "\n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+        val contentText = ",\n\n\n" + (if (product.mailTextline != null) product.mailTextline else def_mail_textline) + "\n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
         smsSender.sendSMS(product.customer!!.phoneNumber!!, headerText + contentText) // send sms text to the customer
 
