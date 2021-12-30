@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+      xmlns="http://www.w3.org/TR/REC-html40"
+>
 
 <head>
 
@@ -106,9 +112,9 @@
         .upload_logo_pos {
             width: 550px;
             height: 275px;
-            background-size: contain;
+            background-size: cover;
             background-repeat: no-repeat;
-            background-position: center;
+            background-position: center center;
         }
     </style>
 
@@ -197,33 +203,50 @@
                                 th:text="${customer.firstname}"></span> <span th:text="${customer.lastname}"></span>
                             <span th:text="${customer.academicDegreeSubsequent}"></span><br>
 
-                            <p>
-                                <span th:text="${mailTextline}"></span>
-                            </p>
+                        <p>
+                            <span th:text="${mailTextline}"></span>
+                        </p>
                         </p>
                     </td>
                 </tr>
                 <!-- end copy -->
 
                 <!-- start button -->
-                <tr>
-                    <td align="left" bgcolor="#ffffff" style="padding: 24px;">
-
+                <tr bgcolor="white">
+                    <td style="padding: 24px;">
                         <a th:href="${productLink}" target="_blank">
-                            <table border="0" cellpadding="0" cellspacing="0" width="550" height="275" class="upload_logo_pos"
-                                   th:if="${(imgProduct != null && !imgProduct.url.isEmpty())}"
-                                   th:background="${imgProduct.url}" th:style="'background-image: url(' + ${imgProduct.url} + ');'">
+                        <span>
+                            <table border="0" cellpadding="0" cellspacing="0" style="max-width: 550px;">
                                 <tr>
-                                    <td align="center" valign="center">
-                                        <img th:if="${(imgPlayBtn != null && !imgPlayBtn.isEmpty())}"
-                                             th:src="${imgPlayBtn}" alt="${productLink}"
-                                             style="width: 120px; height: 120px;" width="120">
+                                    <td th:background="${imgProduct.url}" cellpadding="0" cellspacing="0"
+                                        class="upload_logo_pos" width="550" height="275" valign="middle"
+                                        th:style="'background-image: url(' + ${imgProduct.url} + '); width:550px; height:275px;'"
+                                        th:if="${(imgProduct != null && !imgProduct.url.isEmpty())}">
+                                        <!--[if gte mso 9]>
+                                        <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:550px;height:275px;">
+                                            <v:fill type="tile" th:src="${imgProduct.url}"/>
+                                        <![endif]-->
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+                                            <tr>
+                                                <td align="center" valign="middle">
+                                                    <a th:href="${productLink}" target="_blank">
+                                                    <img th:if="${(imgPlayBtn != null && !imgPlayBtn.isEmpty())}"
+                                                         th:src="${imgPlayBtn}" alt="${productLink}"
+                                                         style="width: 250px; height: 250px;" width="250" height="250">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--[if gte mso 9]>
+                                        </v:rect>
+                                        <![endif]-->
                                     </td>
                                 </tr>
                             </table>
+                        </span>
                         </a>
-
                     </td>
+
                 </tr>
                 <!-- end button -->
 
@@ -235,7 +258,7 @@
                             Schöne Grüße <br><br>
                             <span th:text="${contact.firstName}"></span> <span th:text="${contact.lastName}"></span><br>
                             <img th:if="${(media != null && !media.url.isEmpty())}" th:src="${media.url}"  alt=""
-                                style="max-width: 220px; height: auto;" width="220"/>
+                                 style="max-width: 220px; height: auto;" width="220"/>
                         </p>
                     </td>
                 </tr>
