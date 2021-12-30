@@ -189,7 +189,8 @@ class JobSchedulerController (
         val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
-        val contentText = ",\n\n\n" + (if (product.mailTextline != null) product.mailTextline else def_mail_textline) + "\n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+        val contentText = ",\n\n\n" + (if (product.mailTextline != null) product.mailTextline else def_mail_textline) + "\n" +
+                "Schöne Grüße \n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
         jobDataMap.put("phoneNumber", scheduleSmsRequest.customer!!.phoneNumber!!)
         jobDataMap.put("content", headerText + contentText)
@@ -258,7 +259,8 @@ class JobSchedulerController (
         val def_mail_textline = "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt."
 
         val headerText = Config.Sms.FROM_PUBLISHED_TEXT + product.user.companyName + "\n" + Config.Sms.HEADER_PUBLISHED_TEXT + greeting //create the salutation
-        val contentText = ",\n\n\n" + (if (product.mailTextline != null) product.mailTextline else def_mail_textline) + "\n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
+        val contentText = ",\n\n\n" + (if (product.mailTextline != null) product.mailTextline else def_mail_textline) + "\n" +
+                "Schöne Grüße \n" + product.contact.firstName + " " + product.contact.lastName + "\n\n" + generateProductLink(product) // set contact and the product page link
 
         sendSMS(sendByCategoryRequest.customer!!.phoneNumber!!, headerText + contentText)
         val response = SendByCategoryResponse(true, "Sent Successfully!")
