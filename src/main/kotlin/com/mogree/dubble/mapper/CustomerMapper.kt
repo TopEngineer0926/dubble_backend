@@ -20,6 +20,7 @@ fun CustomerModel.createEntity(user: UserEntity): CustomerEntity {
     entity.academicDegreeSubsequent = this.academicDegreeSubsequent
     entity.category = this.category
     entity.companyName = this.companyName
+    entity.domainName = this.domainName
 
     return entity
 }
@@ -34,6 +35,7 @@ fun CustomerModel.toEntity(entity: CustomerEntity) {
     entity.academicDegreeSubsequent = this.academicDegreeSubsequent
     entity.category = this.category
     entity.companyName = this.companyName
+    entity.domainName = this.domainName
 }
 
 fun CustomerEntity.toModel(): CustomerModel {
@@ -49,6 +51,7 @@ fun CustomerEntity.toModel(): CustomerModel {
     model.academicDegreeSubsequent = this.academicDegreeSubsequent
     model.category = this.category
     model.companyName = this.companyName
+    model.domainName = this.domainName
 
     return model
 }

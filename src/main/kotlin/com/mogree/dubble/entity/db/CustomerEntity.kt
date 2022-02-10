@@ -40,6 +40,9 @@ class CustomerEntity : EntityAudition() {
     @Column(name = "company_name", nullable = true)
     var companyName: String? = null
 
+    @Column(name = "domain_name", nullable = true)
+    var domainName: String? = null
+
     /* ***** Relations ***** */
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

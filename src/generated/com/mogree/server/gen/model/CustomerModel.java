@@ -22,6 +22,7 @@ public class CustomerModel   {
   private String academicDegreeSubsequent = null;
   private String category = null;
   private String companyName = null;
+  private String domainName = null;
   private Integer type = 5;
 
   /**
@@ -216,6 +217,22 @@ public class CustomerModel   {
     this.type = type;
   }
 
+  /**
+   **/
+  public CustomerModel domainName(String domainName) {
+    this.domainName = domainName;
+    return this;
+  }
+
+
+  @ApiModelProperty(example = "domain_name", value = "")
+  @JsonProperty("domain_name")
+  public String getDomainName() {
+    return domainName;
+  }
+  public void setDomainName(String domainName) {
+    this.domainName = domainName;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -236,12 +253,13 @@ public class CustomerModel   {
         Objects.equals(academicDegreeSubsequent, customerModel.academicDegreeSubsequent) &&
         Objects.equals(category, customerModel.category) &&
         Objects.equals(companyName, customerModel.companyName) &&
+        Objects.equals(domainName, customerModel.domainName) &&
         Objects.equals(type, customerModel.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(customerNumber, academicDegreePreceding, itemid, email, firstname, phoneNumber, lastname, academicDegreeSubsequent, category, companyName, type);
+    return Objects.hash(customerNumber, academicDegreePreceding, itemid, email, firstname, phoneNumber, lastname, academicDegreeSubsequent, category, companyName, domainName, type);
   }
 
   @Override
@@ -259,6 +277,7 @@ public class CustomerModel   {
     sb.append("    academicDegreeSubsequent: ").append(toIndentedString(academicDegreeSubsequent)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
+    sb.append("    domainName: ").append(toIndentedString(domainName)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
