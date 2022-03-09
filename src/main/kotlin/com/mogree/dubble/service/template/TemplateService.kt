@@ -21,13 +21,16 @@ class TemplateService(
 
     fun getTemplateWithMaster(offset: Int, limit: Int, masterId: Long): List<ProductModel> {
         if (limit == 0)
-            return templateRepository.getTemplateWithMaster(offset, getSize(), getCurrentUserId(), masterId).toModels()
+            return templateRepository.getTemplateWithMaster(offset, getTemplateSize(masterId), getCurrentUserId(), masterId).toModels()
         else
             return templateRepository.getTemplateWithMaster(offset, limit, getCurrentUserId(), masterId).toModels()
     }
 
     fun getSize(): Int =
-            templateRepository.getTemplateSize(getCurrentUserId())
+            templateRepository.getSize(getCurrentUserId())
+
+    fun getTemplateSize(masterId: Long): Int =
+            templateRepository.getTemplateSize(getCurrentUserId(), masterId)
 
     fun getTemplateByFilter(offset: Int, limit: Int, filter: String): List<ProductModel> {
         if (limit == 0)

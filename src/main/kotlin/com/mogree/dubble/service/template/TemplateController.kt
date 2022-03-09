@@ -26,7 +26,7 @@ class TemplateController (
         if (masterId != null) {
 
             val list: List<ProductModel> = templateService.getTemplateWithMaster(offset, limit, masterId)
-            val response = TemplateListResponse(offset, list, limit, templateService.getSize())
+            val response = TemplateListResponse(offset, list, limit, templateService.getTemplateSize(masterId))
             return ResponseEntity.ok<TemplateListResponse>(response)
 
         } else {

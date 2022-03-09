@@ -42,7 +42,15 @@ interface TemplateRepository : CrudRepository<ProductEntity, Int> {
                     " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
                     " AND " + USER_ID + " = :userId", nativeQuery = true
     )
-    fun getTemplateSize(userId: Long): Int
+    fun getSize(userId: Long): Int
+
+    @Query(
+            "SELECT COUNT(*) " +
+                    "FROM " + TABLE +
+                    " WHERE LOWER(" + TEMPLATE_FIELD + ") LIKE LOWER( CONCAT( '%', '|Vorlage|', '%') )" +
+                    " AND (" + USER_ID + " = :userId" + " OR " + USER_ID + " = :masterId)", nativeQuery = true
+    )
+    fun getTemplateSize(userId: Long, masterId: Long): Int
 
     @Query(
             "SELECT * " +
