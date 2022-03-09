@@ -1,8 +1,9 @@
 package com.mogree.dubble.excel
 
 import com.mogree.dubble.config.security.getCurrentUserId
+import com.mogree.dubble.mapper.toModels
 import com.mogree.dubble.service.customer.CustomerService
-import com.mogree.dubble.storage.repository.CustomerCategoryRepository
+import com.mogree.dubble.storage.repository.CustomerRepository
 import com.mogree.dubble.storage.repository.UserCategoryRepository
 import com.mogree.server.gen.model.CustomerModel
 import org.apache.poi.ss.usermodel.DataFormatter
@@ -26,9 +27,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("customer/excel")
-class ReportController(
+class ExcelService(
     private val customerService: CustomerService,
-    private val userCategoryRepository: UserCategoryRepository
+    private val userCategoryRepository: UserCategoryRepository,
+    private val customerRepository: CustomerRepository
 ) {
 
     @PostMapping("/download_example")
@@ -202,5 +204,59 @@ class ReportController(
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
             .body(report)
+
+    @PostMapping("/download_customers")
+    fun downloadCustomers(): ResponseEntity<ByteArray> {
+        val list: List<CustomerModel> = customerRepository.getCustomers(getCurrentUserId()).toModels()
+        val tempData = writeToExcelFile(list)
+        return createResponseEntity(tempData, "Kunden_Interessen.xlsx")
+    }
+
+    // Writes the values.
+    fun writeToExcelFile(data: List<CustomerModel>): ByteArray {
+        //Instantiate Excel workbook:
+        val xlWb = XSSFWorkbook()
+        //Instantiate Excel worksheet:
+        val xlWs = xlWb.createSheet("Kunden_Interessenten")
+
+        //Row index specifies the row in the worksheet (starting at 0):
+        var rowNumber = 0
+
+        //Write text value to cell located at ROW_NUMBER / COLUMN_NUMBER:
+        // Header of excel
+        var row = xlWs.createRow(rowNumber)
+        row.createCell(0).setCellValue("kundennummer")
+        row.createCell(1).setCellValue("Titel_Vorangestellt")
+        row.createCell(2).setCellValue("Vorname")
+        row.createCell(3).setCellValue("Nachname")
+        row.createCell(4).setCellValue("Titel_Nachgestellt")
+        row.createCell(5).setCellValue("eMail")
+        row.createCell(6).setCellValue("Mobilnummer(+43…)")
+        row.createCell(7).setCellValue("Unternehmen")
+        row.createCell(8).setCellValue("Kunden_Interessen")
+
+        for (i in 0 until data.size) {
+            rowNumber++
+            row = xlWs.createRow(rowNumber)
+
+            row.createCell(0).setCellValue(data[i].customerNumber)
+            row.createCell(1).setCellValue(data[i].academicDegreePreceding)
+            row.createCell(2).setCellValue(data[i].firstname)
+            row.createCell(3).setCellValue(data[i].lastname)
+            row.createCell(4).setCellValue(data[i].academicDegreeSubsequent)
+            row.createCell(5).setCellValue(data[i].email)
+            row.createCell(6).setCellValue(data[i].phoneNumber)
+            row.createCell(7).setCellValue(data[i].companyName)
+            row.createCell(8).setCellValue(data[i].category)
+        }
+
+        //Write file:
+        val out = ByteArrayOutputStream()
+        xlWb.write(out)
+        out.close()
+        xlWb.close()
+
+        return out.toByteArray()
+    }
 
 }

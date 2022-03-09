@@ -14,6 +14,7 @@ interface CustomerRepository : CrudRepository<CustomerEntity, Long>, JpaSpecific
 
     companion object {
         const val TABLE = Config.Database.TABLE_CUSTOMER
+        const val USER_ID = "user_id"
     }
 
     @Query
@@ -29,5 +30,12 @@ interface CustomerRepository : CrudRepository<CustomerEntity, Long>, JpaSpecific
                     " WHERE id=:id", nativeQuery = true
     )
     fun getCustomerInfo(id: Long): CustomerEntity
+
+    @Query(
+            "SELECT * " +
+                    " From " + TABLE +
+                    " WHERE " + USER_ID + " = :userId", nativeQuery = true
+    )
+    fun getCustomers(userId: Long): List<CustomerEntity>
 
 }
