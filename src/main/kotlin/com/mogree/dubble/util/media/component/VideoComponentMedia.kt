@@ -26,6 +26,9 @@ class VideoComponentMedia : BaseComponentMedia() {
     @Value("\${media-upload.video-path}")
     private lateinit var uploadPath: String
 
+    @Value("\${api.vimeo.path}")
+    private lateinit var vimeo_path: String
+
     override fun validMimeTypes(): Array<String> {
         // if needed to update mime-types - must be updated in the swagger description too
         return arrayOf("video/mp4", "video/quicktime", "video/mpeg", "video/3gpp")
@@ -52,9 +55,14 @@ class VideoComponentMedia : BaseComponentMedia() {
         }
 
         try {
-            val path = getPath() + "/" + newFileName
-            vimeoUploadHelper?.upload(newFileName, convertMultipartToFile(file), title)
-            return MediaData(newFileName, path, getMediaType())
+//            val path = getPath() + "/" + newFileName
+            val videoEndPoint = vimeoUploadHelper?.upload(newFileName, convertMultipartToFile(file), title)
+            val newFileName1 = videoEndPoint!!.substringAfterLast("/")
+            val path = "$vimeo_path/$newFileName1"
+            //update status of media in database
+//            mediaHelper.getMediaByFileName(fileName)
+//                    ?.let { mediaHelper.updateMedia(it, null, null, Config.FileStatus.FINISHED, newPath, newFileName) }
+            return MediaData(newFileName1, path, getMediaType())
         } catch (e: IOException) {
             throw APIInternalServerException(Config.ErrorMessagesGerman.WRITE_FILE(newFileName))
         }

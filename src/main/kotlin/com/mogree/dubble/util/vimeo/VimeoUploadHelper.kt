@@ -27,8 +27,7 @@ class VimeoUploadHelper @Autowired constructor(
     /**
      * uploads videos to vimeo
      */
-    @Async
-    fun upload(fileName: String, file: File, title: String?) {
+    fun upload(fileName: String, file: File, title: String?): String {
         try {
             val vimeo = Vimeo(token)
             val upgradeTo1080 = true
@@ -46,9 +45,10 @@ class VimeoUploadHelper @Autowired constructor(
                 file.delete() // convert multipart to file generates file on filesystem
             }
 
-            //update status of media in database
-            mediaHelper.getMediaByFileName(fileName)
-                ?.let { mediaHelper.updateMedia(it, null, null, Config.FileStatus.FINISHED, newPath, newFileName) }
+            return videoEndPoint
+//            //update status of media in database
+//            mediaHelper.getMediaByFileName(fileName)
+//                ?.let { mediaHelper.updateMedia(it, null, null, Config.FileStatus.FINISHED, newPath, newFileName) }
         } catch (e: VimeoException) {
             LOGGER.error("Vimeo Upload failed",e)
             throw APIInternalServerException("Vimeo Upload failed")
