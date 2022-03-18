@@ -103,7 +103,7 @@ class Config {
 
     object Sms {
         const val FROM_PUBLISHED_TEXT = "von "
-        const val HEADER_PUBLISHED_TEXT = "Hallo und schönen guten Tag "
+        const val HEADER_PUBLISHED_TEXT = "Hallo und schönen guten Tag "
         const val PRODUCT_PUBLISHED_TEXT = ",\n\n\n" +
                 "Ich habe für Sie einige aktuelle und interessante Informationen übersichtlich auf einer Seite zusammengestellt. \n" +
                 "Bitte klicken Sie auf den Link - ich freue mich auf Ihre Rückmeldung. \n" +
