@@ -32,7 +32,7 @@ class VimeoUploadHelper @Autowired constructor(
             val vimeo = Vimeo(token)
             val upgradeTo1080 = true
             LOGGER.info("start upload of file ${file.name} to Vimeo")
-            val videoEndPoint = vimeo.addVideo(file, upgradeTo1080)
+            val videoEndPoint = vimeo.addVideo(file)
             LOGGER.info("uploaded file to vimeo $videoEndPoint")
             val newFileName = videoEndPoint.substringAfterLast("/")
             val newPath = "$path/$newFileName"

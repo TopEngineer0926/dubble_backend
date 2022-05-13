@@ -101,7 +101,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core:4.3.1")
 
     // vimeo video upload libraray
-    implementation("com.clickntap:vimeo:1.13")
+    implementation("com.clickntap:vimeo:2.0")
 
     // excel upload/download library
     implementation("org.springframework.boot:spring-boot-starter-web")
