@@ -1,6 +1,6 @@
 spring:
   datasource:
-    jdbc-url: jdbc:mysql://api.dubble.at/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    jdbc-url: jdbc:mysql://dev7api.dubble.at/dubble?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dubble
     password: Tuk3Resto6_markuTeldo
     properties:
@@ -17,6 +17,6 @@ media-upload:
   video-path: "/mounted/video"
   pdf-path: "/mounted/pdf"
 
-web-domain: "https://go.dubble.at"
-cms-domain: "https://cms.dubble.at"
-api-domain: "https://api.dubble.at"
+web-domain: "https://dev7go.dubble.at"
+cms-domain: "https://dev7cms.dubble.at"
+api-domain: "https://dev7api.dubble.at"
